@@ -1,0 +1,706 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Zumbi Hub | Obter Chave</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            user-select: none;
+        }
+
+        body {
+            background-color: #0b0b0e;
+            color: #ffffff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* Luzes neon de fundo */
+        .ambient-glow-1 {
+            position: fixed;
+            top: -10%;
+            left: 20%;
+            width: 450px;
+            height: 450px;
+            background: radial-gradient(circle, rgba(120, 40, 200, 0.18) 0%, rgba(0, 0, 0, 0) 70%);
+            pointer-events: none;
+            z-index: 0;
+            animation: floatSlow 12s infinite alternate ease-in-out;
+        }
+
+        .ambient-glow-2 {
+            position: fixed;
+            bottom: -10%;
+            right: 15%;
+            width: 500px;
+            height: 500px;
+            background: radial-gradient(circle, rgba(147, 51, 234, 0.15) 0%, rgba(0, 0, 0, 0) 70%);
+            pointer-events: none;
+            z-index: 0;
+            animation: floatSlow 14s infinite alternate-reverse ease-in-out;
+        }
+
+        @keyframes floatSlow {
+            0% { transform: translate(0, 0) scale(1); }
+            50% { transform: translate(25px, 15px) scale(1.05); }
+            100% { transform: translate(-20px, -10px) scale(0.95); }
+        }
+
+        /* Container do Card */
+        .card {
+            background-color: #13131a;
+            border: 1px solid #7828c8;
+            border-radius: 16px;
+            padding: 30px 25px;
+            max-width: 480px;
+            width: 100%;
+            box-shadow: 0 0 35px rgba(120, 40, 200, 0.28), 0 10px 40px rgba(0, 0, 0, 0.6);
+            display: none;
+            position: relative;
+            z-index: 10;
+            backdrop-filter: blur(10px);
+            animation: cardEnter 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+
+        .card.active {
+            display: block;
+        }
+
+        @keyframes cardEnter {
+            0% { opacity: 0; transform: translateY(16px) scale(0.97); }
+            100% { opacity: 1; transform: translateY(0) scale(1); }
+        }
+
+        .logo-icon {
+            font-size: 38px;
+            text-align: center;
+            margin-bottom: 10px;
+            display: block;
+        }
+
+        h1 {
+            color: #c084fc;
+            font-size: 22px;
+            text-align: center;
+            margin-bottom: 6px;
+            font-weight: 700;
+        }
+
+        p.subtitle {
+            color: #9ca3af;
+            font-size: 13px;
+            text-align: center;
+            margin-bottom: 18px;
+            line-height: 1.5;
+        }
+
+        /* Caixa de rolagem com o texto explicativo */
+        .scroll-box {
+            background-color: #08080b;
+            border: 1px solid #2d2d3d;
+            border-radius: 10px;
+            height: 150px;
+            overflow-y: scroll;
+            padding: 15px;
+            font-size: 13px;
+            color: #d1d5db;
+            margin-bottom: 15px;
+            line-height: 1.6;
+            text-align: left;
+        }
+
+        .scroll-box h3 {
+            color: #c084fc;
+            font-size: 14px;
+            margin-bottom: 6px;
+            margin-top: 10px;
+            font-weight: 600;
+        }
+
+        .scroll-box h3:first-child {
+            margin-top: 0;
+        }
+
+        .scroll-box p {
+            color: #9ca3af;
+            margin-bottom: 10px;
+        }
+
+        .scroll-box::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .scroll-box::-webkit-scrollbar-thumb {
+            background-color: #7828c8;
+            border-radius: 4px;
+        }
+
+        /* Tema Branco das Telas de Aviso/Banimento */
+        .white-theme {
+            background-color: #ffffff !important;
+            color: #000000 !important;
+            border-color: #d1d5db !important;
+            box-shadow: 0 0 30px rgba(255, 255, 255, 0.15), 0 10px 30px rgba(0, 0, 0, 0.3) !important;
+        }
+
+        .white-theme h1 {
+            color: #111827 !important;
+        }
+
+        .white-theme p.subtitle {
+            color: #4b5563 !important;
+        }
+
+        .white-theme .scroll-box {
+            background-color: #f3f4f6 !important;
+            color: #1f2937 !important;
+            border-color: #d1d5db !important;
+        }
+
+        .white-theme .scroll-box p {
+            color: #374151 !important;
+        }
+
+        .white-theme .checkbox-container {
+            background-color: #f9fafb !important;
+            border-color: #d1d5db !important;
+        }
+
+        .white-theme .checkbox-container label {
+            color: #1f2937 !important;
+        }
+
+        .checkbox-container {
+            display: flex;
+            align-items: center;
+            background-color: #08080b;
+            border: 1px solid #2d2d3d;
+            padding: 12px 15px;
+            border-radius: 10px;
+            margin-bottom: 15px;
+            cursor: pointer;
+            text-align: left;
+            transition: border-color 0.2s;
+        }
+
+        .checkbox-container:hover {
+            border-color: #7828c8;
+        }
+
+        .checkbox-container input {
+            width: 18px;
+            height: 18px;
+            accent-color: #7828c8;
+            margin-right: 12px;
+            cursor: pointer;
+        }
+
+        .checkbox-container label {
+            font-size: 14px;
+            color: #e5e7eb;
+            cursor: pointer;
+        }
+
+        /* Botões */
+        .btn {
+            background: linear-gradient(135deg, #7828c8, #9333ea);
+            color: white;
+            border: none;
+            padding: 13px;
+            font-size: 15px;
+            font-weight: 600;
+            border-radius: 10px;
+            cursor: pointer;
+            width: 100%;
+            transition: all 0.2s ease;
+            box-shadow: 0 4px 12px rgba(120, 40, 200, 0.3);
+            margin-top: 5px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .btn:disabled {
+            background: #272733 !important;
+            color: #6b7280 !important;
+            cursor: not-allowed !important;
+            box-shadow: none !important;
+            transform: none !important;
+        }
+
+        .btn:not(:disabled):hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 18px rgba(147, 51, 234, 0.5);
+        }
+
+        .btn:not(:disabled):active {
+            transform: translateY(0);
+        }
+
+        .btn-green {
+            background: linear-gradient(135deg, #16a34a, #22c55e) !important;
+            box-shadow: 0 4px 12px rgba(34, 197, 94, 0.3) !important;
+        }
+
+        .btn-green:hover {
+            box-shadow: 0 6px 18px rgba(34, 197, 94, 0.5) !important;
+        }
+
+        .btn-secondary {
+            background: #1f1f2e !important;
+            border: 1px solid #7828c8 !important;
+            color: #c084fc !important;
+            box-shadow: none !important;
+        }
+
+        .btn-secondary:hover {
+            background: #2a2a3d !important;
+            color: #f3e8ff !important;
+        }
+
+        .btn-voice {
+            background: #1f1f2e;
+            border: 1px solid #7828c8;
+            color: #c084fc;
+            margin-bottom: 12px;
+            font-size: 14px;
+            padding: 10px;
+            box-shadow: none;
+        }
+
+        .btn-voice:hover {
+            background: #2a2a3d;
+        }
+
+        .key-box {
+            background-color: #08080b;
+            border: 2px dashed #7828c8;
+            border-radius: 10px;
+            padding: 15px;
+            margin: 20px 0;
+            font-family: 'Consolas', 'Courier New', monospace;
+            font-size: 19px;
+            font-weight: bold;
+            color: #c084fc;
+            text-align: center;
+            letter-spacing: 1.5px;
+            word-break: break-all;
+            box-shadow: inset 0 0 10px rgba(120, 40, 200, 0.15);
+        }
+
+        .footer {
+            margin-top: 20px;
+            text-align: center;
+            font-size: 11px;
+            color: #6b7280;
+        }
+
+        .pulse {
+            animation: piscar 1.6s infinite ease-in-out;
+        }
+
+        @keyframes piscar {
+            0%, 100% { 
+                opacity: 1; 
+                transform: scale(1);
+            }
+            50% { 
+                opacity: 0.85; 
+                transform: scale(1.015);
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="ambient-glow-1"></div>
+    <div class="ambient-glow-2"></div>
+
+    <!-- ETAPA 1: Verificação com Texto Explicativo, Voz e Anti-Bot -->
+    <div id="step1" class="card active">
+        <div class="logo-icon">🧟</div>
+        <h1>Zumbi Hub - Verificação</h1>
+        <p class="subtitle">Leia os detalhes do script, role até o final com calma e confirme.</p>
+        
+        <!-- Botão de Leitura por Voz -->
+        <button id="btnVoice" class="btn btn-voice" onclick="lerTextoVoz()">🔊 Ouvir Texto em Voz Alta</button>
+
+        <!-- Caixa de Texto Explicativo Atualizado -->
+        <div id="scrollBox1" class="scroll-box" onscroll="checkScrollEnd()">
+            <h3>Bem-vindo ao Zumbi Hub (Atualização Recente)</h3>
+            <p>O Zumbi Hub passou por uma grande evolução estrutural e de performance nesta última atualização. Criamos novas ferramentas avançadas de automação, painéis de controle otimizados para criadores e sistemas de script voltados inteiramente para jogos de terror, sobrevivência e simulação no Roblox. Nosso objetivo é entregar estabilidade máxima, comandos rápidos e uma interface limpa que não trava o seu jogo durante as partidas mais intensas.</p>
+
+            <h3>Novas Funcionalidades de Clique e Automação</h3>
+            <p>• <strong>Sistema Avançado de Cliques:</strong> Adicionamos novos gatilhos automáticos de clique com ajuste de velocidade por milissegundos, permitindo automações precisas em mini-games, inventários e coleta de itens dentro dos servidores.</p>
+            <p>• <strong>Painel Admin Aprimorado:</strong> Comandos flutuantes redimensionáveis, atalhos customizáveis direto na tela e visualização em tempo real de eventos e jogadores conectados no servidor.</p>
+            <p>• <strong>Otimização Geral de FPS:</strong> Redução drástica de lag e consumo de memória, garantindo fluidez mesmo em servidores lotados ou com gráficos pesados no máximo.</p>
+
+            <h3>Tutorial de Uso do Script</h3>
+            <p>1. Copie a chave gerada ao final deste site.<br>
+            2. Abra seu executor de preferência no Roblox (certifique-se de que ele está atualizado).<br>
+            3. Cole o código principal do Zumbi Hub na aba de execução.<br>
+            4. Insira sua chave quando solicitada na tela de login do script para destravar todas as funções do painel admin e sistema de cliques.</p>
+
+            <p style="text-align: center; color: #7828c8; font-weight: bold; margin-top: 15px;">[ Fim do documento oficial de atualizações - Sistema Verificado ]</p>
+        </div>
+
+        <p id="scrollHint" style="font-size: 11px; color: #b060ff; text-align: center; margin-bottom: 8px; font-style: italic;">
+            ⬇️ Role a caixa de texto até o fim para desbloquear a confirmação
+        </p>
+
+        <!-- Captcha / Robô -->
+        <div class="checkbox-container" onclick="toggleRobotCheck()">
+            <input type="checkbox" id="robotCheck" onchange="validarLiberacao()" onclick="event.stopPropagation()">
+            <label for="robotCheck">Li as informações com calma e não sou um robô</label>
+        </div>
+
+        <!-- Botão Continuar -->
+        <button id="btnContinuar" class="btn" disabled onclick="verificarComportamentoBot()">Continuar Verificação</button>
+        <div class="footer">Zumbi Hub • Etapa 1 de 4</div>
+    </div>
+
+    <!-- ETAPA 1.1: Tela de Bloqueio Anti-Bot (Caso role rápido demais) -->
+    <div id="stepBotBlocked" class="card white-theme">
+        <div class="logo-icon">🤖</div>
+        <h1>Bot Detectado!</h1>
+        <p class="subtitle">O sistema identificou que você tentou rolar a página rápido demais ou burlar a leitura de segurança.</p>
+        
+        <div class="scroll-box" style="text-align: center; padding-top: 25px;">
+            <p style="font-weight: bold; color: #dc2626; font-size: 15px;">Acesso temporariamente bloqueado por 1 dia devido a atividade suspeita de robô.</p>
+            <p style="margin-top: 10px;">Por favor, aguarde o período de punição ou tente acessar novamente mais tarde com um comportamento humano adequado.</p>
+        </div>
+
+        <button class="btn" style="background: #dc2626;" onclick="reiniciarFluxo()">Tentar Novamente (Reiniciar)</button>
+        <div class="footer" style="color: #6b7280;">Zumbi Hub • Sistema de Proteção Anti-Fraud</div>
+    </div>
+
+    <!-- ETAPA 2: Tela de Aviso de Atualização do Script (Com botão Pular) -->
+    <div id="stepUpdate" class="card">
+        <div class="logo-icon">🚀</div>
+        <h1>Atualização Disponível</h1>
+        <p class="subtitle">Há uma nova versão de arquivos de otimização recomendada para o seu executor.</p>
+        
+        <div class="scroll-box">
+            <p><strong>Notas da Versão:</strong> Correção de bugs de injeção em servidores de 64-bits, melhoria na estabilidade do sistema de cliques e correção de carregamento visual.</p>
+            <p>Deseja aplicar os arquivos atualizados agora para garantir melhor desempenho?</p>
+        </div>
+
+        <button class="btn btn-green" onclick="nextStep(3)">Atualizar Agora</button>
+        <button class="btn btn-secondary" onclick="nextStep(3)" style="margin-top: 10px;">Pular Atualização</button>
+        <div class="footer">Zumbi Hub • Etapa 2 de 4</div>
+    </div>
+
+    <!-- ETAPA 3: Tela Branca com Isenção de Banimento -->
+    <div id="stepBan" class="card white-theme">
+        <div class="logo-icon">⚠️</div>
+        <h1>Aviso de Isenção</h1>
+        <p class="subtitle">Leia o termo de responsabilidade de segurança abaixo.</p>
+        
+        <div class="scroll-box">
+            <p>Concordo formalmente que, se minha conta for banida por utilizar scripts, modificações ou executores no Roblox, eu assumo total e inteira responsabilidade por meus atos.</p>
+            <p style="margin-top: 10px;">Isento completamente o criador (Zumbi Hub) de qualquer culpa, banimento permanente ou perda de itens e contas dentro do jogo. O uso de exploits é de risco exclusivo do usuário final.</p>
+        </div>
+
+        <div class="checkbox-container" onclick="toggleBanCheck()">
+            <input type="checkbox" id="agreeBan" onclick="event.stopPropagation()">
+            <label for="agreeBan">Concordo com os termos de isenção de banimento</label>
+        </div>
+
+        <button class="btn btn-green" onclick="validarEtapaBan()">Continuar para o Carregamento</button>
+        <div class="footer" style="color: #6b7280;">Zumbi Hub • Etapa 3 de 4</div>
+    </div>
+
+    <!-- ETAPA 4: Tela de Carregamento (10 Segundos) -->
+    <div id="stepLoad" class="card">
+        <div class="logo-icon">⏳</div>
+        <h1>Gerando Chave...</h1>
+        <p id="loadText" class="subtitle" style="font-size: 16px; margin: 25px 0;">Aguarde 10 segundos...</p>
+        
+        <div style="width: 100%; background: #08080b; height: 10px; border-radius: 5px; border: 1px solid #2d2d3d; overflow: hidden;">
+            <div id="progressBar" style="width: 0%; height: 100%; background: linear-gradient(90deg, #7828c8, #c084fc); transition: width 1s linear;"></div>
+        </div>
+        <div class="footer">Zumbi Hub • Processando chaves seguras</div>
+    </div>
+
+    <!-- ETAPA 5: Tela Final com Copiar e Baixar Chave -->
+    <div id="stepFinal" class="card">
+        <div class="logo-icon">🎉</div>
+        <h1>Chave Pronta!</h1>
+        <p class="subtitle" id="avisoVelocidade">Sua verificação foi concluída com sucesso. Escolha uma das opções abaixo:</p>
+        
+        <div class="key-box" id="keyDisplay">ZUMBI-KEY-5592-VIP</div>
+
+        <button id="btnCopiar" class="btn btn-green pulse" onclick="copiarChave()">📋 Copiar Chave de Acesso</button>
+        <button class="btn btn-secondary" onclick="baixarKeyTxt()" style="margin-top: 10px;">💾 Baixar Arquivo da Chave (.txt)</button>
+        
+        <div style="margin-top: 18px; padding-top: 12px; border-top: 1px solid #252035; text-align: center;">
+            <a href="javascript:void(0)" onclick="reiniciarFluxo()" style="color: #9ca3af; font-size: 11px; text-decoration: none;">🔄 Reiniciar verificação</a>
+        </div>
+
+        <div class="footer">Zumbi Hub • Sistema Oficial Seguro</div>
+    </div>
+
+    <script>
+        // Web Audio API para sons de clique futurista
+        let audioCtx = null;
+        function getAudioCtx() {
+            if (!audioCtx && (window.AudioContext || window.webkitAudioContext)) {
+                audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+            }
+            if (audioCtx && audioCtx.state === 'suspended') {
+                audioCtx.resume();
+            }
+            return audioCtx;
+        }
+
+        function playClickSound() {
+            try {
+                const ctx = getAudioCtx();
+                if (!ctx) return;
+                const osc = ctx.createOscillator();
+                const gain = ctx.createGain();
+                osc.type = 'sine';
+                osc.frequency.setValueAtTime(800, ctx.currentTime);
+                osc.frequency.exponentialRampToValueAtTime(240, ctx.currentTime + 0.04);
+                gain.gain.setValueAtTime(0.12, ctx.currentTime);
+                gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.04);
+                osc.connect(gain);
+                gain.connect(ctx.destination);
+                osc.start();
+                osc.stop(ctx.currentTime + 0.04);
+            } catch(e) {}
+        }
+
+        function playSuccessSound() {
+            try {
+                const ctx = getAudioCtx();
+                if (!ctx) return;
+                const now = ctx.currentTime;
+                const notes = [523.25, 659.25, 783.99, 1046.5];
+                notes.forEach((freq, idx) => {
+                    const osc = ctx.createOscillator();
+                    const gain = ctx.createGain();
+                    osc.type = 'sine';
+                    osc.frequency.setValueAtTime(freq, now + idx * 0.07);
+                    gain.gain.setValueAtTime(0.12, now + idx * 0.07);
+                    gain.gain.exponentialRampToValueAtTime(0.001, now + idx * 0.07 + 0.25);
+                    osc.connect(gain);
+                    gain.connect(ctx.destination);
+                    osc.start(now + idx * 0.07);
+                    osc.stop(now + idx * 0.07 + 0.25);
+                });
+            } catch(e) {}
+        }
+
+        // Variáveis de Controle
+        let jaRolouAteOFim = false;
+        let tempoInicioLeitura = Date.now();
+        let isSpeaking = false;
+
+        function checkScrollEnd() {
+            const box = document.getElementById('scrollBox1');
+            if (box.scrollTop + box.clientHeight >= box.scrollHeight - 12) {
+                jaRolouAteOFim = true;
+                const hint = document.getElementById('scrollHint');
+                if (hint) {
+                    hint.style.color = '#22c55e';
+                    hint.innerText = '✓ Leitura completa confirmada!';
+                }
+                validarLiberacao();
+            }
+        }
+
+        function toggleRobotCheck() {
+            playClickSound();
+            const checkbox = document.getElementById('robotCheck');
+            checkbox.checked = !checkbox.checked;
+            validarLiberacao();
+        }
+
+        function toggleBanCheck() {
+            playClickSound();
+            const checkbox = document.getElementById('agreeBan');
+            checkbox.checked = !checkbox.checked;
+        }
+
+        function validarLiberacao() {
+            const checkbox = document.getElementById('robotCheck').checked;
+            const btn = document.getElementById('btnContinuar');
+            btn.disabled = !(checkbox && jaRolouAteOFim);
+        }
+
+        function verificarComportamentoBot() {
+            playClickSound();
+            const tempoGasto = (Date.now() - tempoInicioLeitura) / 1000;
+
+            // Se leu e rolou em menos de 3 segundos, o anti-bot bloqueia na hora!
+            if (tempoGasto < 3.0) {
+                document.querySelectorAll('.card').forEach(el => el.classList.remove('active'));
+                document.getElementById('stepBotBlocked').classList.add('active');
+            } else {
+                window.veioDevagar = true; 
+                nextStep('Update');
+            }
+        }
+
+        function lerTextoVoz() {
+            playClickSound();
+            if (!('speechSynthesis' in window)) {
+                alert("Seu navegador não suporta leitura de voz.");
+                return;
+            }
+
+            const btn = document.getElementById('btnVoice');
+
+            if (isSpeaking) {
+                window.speechSynthesis.cancel();
+                isSpeaking = false;
+                btn.innerHTML = '🔊 Ouvir Texto em Voz Alta';
+                return;
+            }
+
+            window.speechSynthesis.cancel();
+            const texto = "Bem-vindo ao Zumbi Hub. O Zumbi Hub passou por uma grande evolução estrutural e de performance nesta última atualização. Criamos novas ferramentas avançadas de automação, painel de controle otimizado e sistema de cliques milissegundo. Leia as instruções com calma para obter a sua chave.";
+            const utterance = new SpeechSynthesisUtterance(texto);
+            utterance.lang = 'pt-BR';
+            utterance.rate = 1.05;
+
+            utterance.onend = function() {
+                isSpeaking = false;
+                btn.innerHTML = '🔊 Ouvir Texto em Voz Alta';
+            };
+
+            utterance.onerror = function() {
+                isSpeaking = false;
+                btn.innerHTML = '🔊 Ouvir Texto em Voz Alta';
+            };
+
+            window.speechSynthesis.speak(utterance);
+            isSpeaking = true;
+            btn.innerHTML = '⏹️ Parar Leitura de Voz';
+        }
+
+        function nextStep(stepName) {
+            playClickSound();
+            document.querySelectorAll('.card').forEach(el => el.classList.remove('active'));
+            
+            if (stepName === 3) {
+                document.getElementById('stepBan').classList.add('active');
+            } else if (stepName === 'Update') {
+                document.getElementById('stepUpdate').classList.add('active');
+            } else if (stepName === 'Load') {
+                document.getElementById('stepLoad').classList.add('active');
+                runTimer();
+            } else if (stepName === 'Final') {
+                document.getElementById('stepFinal').classList.add('active');
+                playSuccessSound();
+                if (window.veioDevagar) {
+                    document.getElementById('avisoVelocidade').innerText = "Não vá muito rápido na próxima vez, vá devagar para o site não pensar que é bot!";
+                }
+            } else {
+                const el = document.getElementById('step' + stepName);
+                if (el) el.classList.add('active');
+            }
+        }
+
+        function validarEtapaBan() {
+            playClickSound();
+            const agree = document.getElementById('agreeBan').checked;
+            if (!agree) {
+                alert("Você precisa concordar com os termos de isenção para continuar!");
+                return;
+            }
+            nextStep('Load');
+        }
+
+        function runTimer() {
+            let seconds = 10;
+            const loadText = document.getElementById('loadText');
+            const progressBar = document.getElementById('progressBar');
+            let progress = 0;
+
+            const interval = setInterval(() => {
+                seconds--;
+                progress += 10;
+                progressBar.style.width = progress + '%';
+                
+                if (seconds > 0) {
+                    loadText.innerText = `Aguarde ${seconds} segundos...`;
+                } else {
+                    clearInterval(interval);
+                    nextStep('Final');
+                }
+            }, 1000);
+        }
+
+        function copiarChave() {
+            playClickSound();
+            const chave = document.getElementById('keyDisplay').innerText;
+            const btn = document.getElementById('btnCopiar');
+
+            navigator.clipboard.writeText(chave).then(() => {
+                btn.innerHTML = '✓ Chave Copiada com Sucesso!';
+                setTimeout(() => {
+                    btn.innerHTML = '📋 Copiar Chave de Acesso';
+                }, 3000);
+            }).catch(() => {
+                prompt("Copie sua chave manualmente:", chave);
+            });
+        }
+
+        function baixarKeyTxt() {
+            playClickSound();
+            const chave = document.getElementById('keyDisplay').innerText;
+            const dataHora = new Date().toLocaleString('pt-BR');
+            const conteudo = `${chave}\nChave oficial gerada pelo Zumbi Hub - Sistema Seguro\nData de Emissão: ${dataHora}\nValidade: 24 Horas`;
+            const blob = new Blob([conteudo], { type: "text/plain;charset=utf-8" });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = "ZumbiHub_Key.txt";
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+        }
+
+        function reiniciarFluxo() {
+            playClickSound();
+            if ('speechSynthesis' in window) {
+                window.speechSynthesis.cancel();
+            }
+            isSpeaking = false;
+            document.getElementById('btnVoice').innerHTML = '🔊 Ouvir Texto em Voz Alta';
+            
+            jaRolouAteOFim = false;
+            tempoInicioLeitura = Date.now();
+            document.getElementById('robotCheck').checked = false;
+            document.getElementById('agreeBan').checked = false;
+            document.getElementById('btnContinuar').disabled = true;
+            
+            const hint = document.getElementById('scrollHint');
+            if (hint) {
+                hint.style.color = '#b060ff';
+                hint.innerText = '⬇️ Role a caixa de texto até o fim para desbloquear a confirmação';
+            }
+
+            const scrollBox = document.getElementById('scrollBox1');
+            if (scrollBox) scrollBox.scrollTop = 0;
+
+            document.querySelectorAll('.card').forEach(el => el.classList.remove('active'));
+            document.getElementById('step1').classList.add('active');
+        }
+    </script>
+</body>
+          </html>
