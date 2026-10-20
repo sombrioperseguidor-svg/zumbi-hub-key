@@ -10,9 +10,7 @@
             padding: 0;
             box-sizing: border-box;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            user-select: none;
         }
-
         body {
             background-color: #0b0b0e;
             color: #ffffff;
@@ -21,351 +19,293 @@
             align-items: center;
             min-height: 100vh;
             padding: 20px;
-            overflow-x: hidden;
             position: relative;
+            overflow-x: hidden;
+            user-select: none;
         }
 
+        /* Neon Glow de Fundo */
         .ambient-glow-1 {
             position: fixed;
             top: -10%;
-            left: 20%;
+            left: -10%;
             width: 450px;
             height: 450px;
-            background: radial-gradient(circle, rgba(120, 40, 200, 0.18) 0%, rgba(0, 0, 0, 0) 70%);
+            background: radial-gradient(circle, rgba(120, 40, 200, 0.22) 0%, transparent 70%);
+            border-radius: 50%;
             pointer-events: none;
             z-index: 0;
-            animation: floatSlow 12s infinite alternate ease-in-out;
         }
-
         .ambient-glow-2 {
             position: fixed;
             bottom: -10%;
-            right: 15%;
+            right: -10%;
             width: 500px;
             height: 500px;
-            background: radial-gradient(circle, rgba(147, 51, 234, 0.15) 0%, rgba(0, 0, 0, 0) 70%);
+            background: radial-gradient(circle, rgba(147, 51, 234, 0.18) 0%, transparent 70%);
+            border-radius: 50%;
             pointer-events: none;
             z-index: 0;
-            animation: floatSlow 14s infinite alternate-reverse ease-in-out;
         }
 
-        @keyframes floatSlow {
-            0% { transform: translate(0, 0) scale(1); }
-            50% { transform: translate(25px, 15px) scale(1.05); }
-            100% { transform: translate(-20px, -10px) scale(0.95); }
+        /* Botão Flutuante de Suporte Super IA */
+        .support-float-btn {
+            position: fixed;
+            top: 16px;
+            right: 16px;
+            background: #171424;
+            color: #c084fc;
+            border: 1px solid #7828c8;
+            padding: 8px 14px;
+            border-radius: 9999px;
+            font-size: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            box-shadow: 0 0 15px rgba(120, 40, 200, 0.35);
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            z-index: 40;
+            transition: transform 0.2s, background 0.2s;
+        }
+        .support-float-btn:hover {
+            transform: scale(1.05);
+            background: #251f38;
         }
 
+        /* Modais */
+        .modal-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.85);
+            backdrop-filter: blur(8px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 16px;
+            z-index: 100;
+        }
+
+        /* Cartão Central */
         .card {
             background-color: #13131a;
             border: 1px solid #7828c8;
             border-radius: 16px;
-            padding: 30px 25px;
+            padding: 30px 24px;
             max-width: 480px;
             width: 100%;
-            box-shadow: 0 0 35px rgba(120, 40, 200, 0.28), 0 10px 40px rgba(0, 0, 0, 0.6);
+            box-shadow: 0 0 35px rgba(120, 40, 200, 0.25);
             display: none;
             position: relative;
             z-index: 10;
-            backdrop-filter: blur(10px);
-            animation: cardEnter 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+            animation: cardEnter 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
         }
-
         .card.active {
             display: block;
         }
 
         @keyframes cardEnter {
-            0% { opacity: 0; transform: translateY(16px) scale(0.97); }
-            100% { opacity: 1; transform: translateY(0) scale(1); }
+            from {
+                opacity: 0;
+                transform: translateY(12px) scale(0.98);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+
+        .card.white-theme {
+            background-color: #ffffff;
+            border: 1px solid #e5e7eb;
+            color: #111827;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        }
+        .card.white-theme h1 { color: #111827; }
+        .card.white-theme p.subtitle { color: #4b5563; }
+        .card.white-theme .scroll-box {
+            background-color: #f9fafb;
+            border: 1px solid #e5e7eb;
+            color: #374151;
         }
 
         .logo-icon {
             font-size: 38px;
             text-align: center;
             margin-bottom: 10px;
-            display: block;
         }
-
         h1 {
             color: #c084fc;
             font-size: 22px;
             text-align: center;
             margin-bottom: 6px;
-            font-weight: 700;
         }
-
         p.subtitle {
             color: #9ca3af;
             font-size: 13px;
             text-align: center;
-            margin-bottom: 18px;
-            line-height: 1.5;
+            margin-bottom: 16px;
+            line-height: 1.4;
         }
 
         .scroll-box {
             background-color: #08080b;
             border: 1px solid #2d2d3d;
             border-radius: 10px;
-            height: 150px;
+            height: 140px;
             overflow-y: scroll;
-            padding: 15px;
+            padding: 14px;
             font-size: 13px;
             color: #d1d5db;
             margin-bottom: 15px;
             line-height: 1.6;
             text-align: left;
         }
-
         .scroll-box h3 {
             color: #c084fc;
             font-size: 14px;
             margin-bottom: 6px;
             margin-top: 10px;
-            font-weight: 600;
         }
-
-        .scroll-box h3:first-child {
-            margin-top: 0;
-        }
-
-        .scroll-box p {
-            color: #9ca3af;
-            margin-bottom: 10px;
-        }
-
-        .scroll-box::-webkit-scrollbar {
-            width: 6px;
-        }
-
-        .scroll-box::-webkit-scrollbar-thumb {
-            background-color: #7828c8;
-            border-radius: 4px;
-        }
-
-        /* Tema Branco */
-        .white-theme {
-            background-color: #ffffff !important;
-            color: #000000 !important;
-            border-color: #d1d5db !important;
-            box-shadow: 0 0 30px rgba(255, 255, 255, 0.15), 0 10px 30px rgba(0, 0, 0, 0.3) !important;
-        }
-
-        .white-theme h1 {
-            color: #111827 !important;
-        }
-
-        .white-theme p.subtitle {
-            color: #4b5563 !important;
-        }
-
-        .white-theme .scroll-box {
-            background-color: #f3f4f6 !important;
-            color: #1f2937 !important;
-            border-color: #d1d5db !important;
-        }
-
-        .white-theme .scroll-box p {
-            color: #374151 !important;
-        }
+        .scroll-box h3:first-child { margin-top: 0; }
+        .scroll-box p { color: #9ca3af; margin-bottom: 8px; }
+        .scroll-box::-webkit-scrollbar { width: 6px; }
+        .scroll-box::-webkit-scrollbar-track { background: rgba(11, 11, 14, 0.6); border-radius: 4px; }
+        .scroll-box::-webkit-scrollbar-thumb { background: #7828c8; border-radius: 4px; }
 
         .checkbox-container {
             display: flex;
             align-items: center;
-            background-color: #08080b;
-            border: 1px solid #2d2d3d;
-            padding: 12px 15px;
-            border-radius: 10px;
-            margin-bottom: 12px;
+            margin-bottom: 16px;
+            background: #0d0d12;
+            padding: 10px 14px;
+            border-radius: 8px;
+            border: 1px solid #222230;
             cursor: pointer;
-            text-align: left;
-            transition: border-color 0.2s;
+            transition: all 0.2s;
         }
-
-        .checkbox-container:hover {
-            border-color: #7828c8;
-        }
-
+        .checkbox-container:hover { border-color: #7828c8; }
         .checkbox-container input {
-            width: 18px;
-            height: 18px;
+            margin-right: 10px;
             accent-color: #7828c8;
-            margin-right: 12px;
+            width: 17px;
+            height: 17px;
             cursor: pointer;
         }
-
         .checkbox-container label {
             font-size: 13px;
-            color: #e5e7eb;
+            color: #d1d5db;
             cursor: pointer;
         }
 
         .btn {
-            background: linear-gradient(135deg, #7828c8, #9333ea);
-            color: white;
+            background: #7828c8;
+            color: #ffffff;
             border: none;
-            padding: 13px;
-            font-size: 15px;
-            font-weight: 600;
-            border-radius: 10px;
-            cursor: pointer;
+            border-radius: 8px;
+            padding: 12px;
+            font-size: 14px;
+            font-weight: bold;
             width: 100%;
-            transition: all 0.2s ease;
-            box-shadow: 0 4px 12px rgba(120, 40, 200, 0.3);
-            margin-top: 5px;
+            cursor: pointer;
+            transition: all 0.2s;
             display: flex;
-            align-items: center;
             justify-content: center;
+            align-items: center;
             gap: 8px;
+            margin-top: 8px;
         }
-
+        .btn:hover:not(:disabled) {
+            background: #9333ea;
+            box-shadow: 0 0 15px rgba(120, 40, 200, 0.6);
+        }
         .btn:disabled {
-            background: #272733 !important;
-            color: #6b7280 !important;
-            cursor: not-allowed !important;
+            background: #23232f !important;
+            color: #555566 !important;
+            cursor: not-allowed;
             box-shadow: none !important;
-            transform: none !important;
         }
-
-        .btn:not(:disabled):hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 18px rgba(147, 51, 234, 0.5);
-        }
-
         .btn-green {
-            background: linear-gradient(135deg, #16a34a, #22c55e) !important;
-            box-shadow: 0 4px 12px rgba(34, 197, 94, 0.3) !important;
+            background: #22c55e !important;
+            color: #ffffff !important;
         }
-
-        .btn-green:hover {
-            box-shadow: 0 6px 18px rgba(34, 197, 94, 0.5) !important;
+        .btn-green:hover:not(:disabled) {
+            background: #16a34a !important;
+            box-shadow: 0 0 18px rgba(34, 197, 94, 0.6) !important;
         }
-
         .btn-secondary {
-            background: #1f1f2e !important;
+            background: #1c1c28 !important;
             border: 1px solid #7828c8 !important;
             color: #c084fc !important;
-            box-shadow: none !important;
         }
-
-        .btn-secondary:hover {
-            background: #2a2a3d !important;
-            color: #f3e8ff !important;
-        }
-
+        .btn-secondary:hover { background: #28283a !important; }
         .btn-voice {
-            background: #1f1f2e;
+            background: #1b172a;
             border: 1px solid #7828c8;
             color: #c084fc;
+            padding: 8px 12px;
+            font-size: 12px;
             margin-bottom: 12px;
-            font-size: 14px;
-            padding: 10px;
-            box-shadow: none;
         }
 
-        .key-box {
-            background-color: #08080b;
-            border: 2px dashed #7828c8;
-            border-radius: 10px;
-            padding: 15px;
-            margin: 20px 0;
-            font-family: 'Consolas', 'Courier New', monospace;
-            font-size: 19px;
-            font-weight: bold;
-            color: #c084fc;
-            text-align: center;
-            letter-spacing: 1.5px;
-            word-break: break-all;
-            box-shadow: inset 0 0 10px rgba(120, 40, 200, 0.15);
-        }
-
-        .footer {
-            margin-top: 20px;
-            text-align: center;
-            font-size: 11px;
-            color: #6b7280;
-        }
-
-        .pulse {
-            animation: piscar 1.6s infinite ease-in-out;
-        }
-
-        @keyframes piscar {
-            0%, 100% { opacity: 1; transform: scale(1); }
-            50% { opacity: 0.85; transform: scale(1.015); }
-        }
-
-        .modal-overlay {
-            position: fixed;
-            inset: 0;
-            z-index: 50;
-            background-color: rgba(0, 0, 0, 0.85);
-            backdrop-filter: blur(6px);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            padding: 16px;
-        }
-
-        .modal-box {
-            background-color: #14131d;
-            border: 2px solid #7828c8;
-            border-radius: 16px;
-            max-width: 440px;
-            width: 100%;
-            padding: 24px;
-            box-shadow: 0 0 40px rgba(120, 40, 200, 0.4);
-            text-align: left;
-            animation: cardEnter 0.25s ease-out;
-        }
-
-        /* Grid Captcha 3x3 */
+        /* Grade do Desafio Visual */
         .captcha-grid {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
             gap: 8px;
-            margin-bottom: 12px;
+            margin: 12px 0;
         }
-
         .captcha-tile {
-            position: relative;
-            aspect-ratio: 1;
+            background: #151222;
+            border: 1px solid #2e2645;
+            border-radius: 12px;
+            padding: 12px 6px;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            border-radius: 10px;
-            border: 1px solid #2e2645;
-            background-color: #151222;
             cursor: pointer;
-            transition: all 0.2s;
-            padding: 6px;
+            transition: all 0.15s;
         }
-
-        .captcha-tile:hover {
-            border-color: #7828c8;
-        }
-
+        .captcha-tile:hover { border-color: #7828c8; }
         .captcha-tile.selected {
-            background-color: rgba(120, 40, 200, 0.35);
+            background: rgba(120, 40, 200, 0.4);
             border-color: #c084fc;
-            box-shadow: 0 0 10px rgba(192, 132, 252, 0.4);
-            transform: scale(0.96);
+            box-shadow: 0 0 12px rgba(192, 132, 252, 0.4);
+            transform: scale(0.97);
+        }
+        .captcha-tile .emoji { font-size: 28px; margin-bottom: 4px; }
+        .captcha-tile .label { font-size: 9px; color: #d1d5db; text-align: center; }
+
+        .key-box {
+            background: #0a0a0f;
+            border: 2px dashed #7828c8;
+            border-radius: 10px;
+            padding: 15px;
+            text-align: center;
+            font-size: 19px;
+            font-weight: bold;
+            color: #22c55e;
+            letter-spacing: 2px;
+            margin-bottom: 16px;
+            user-select: all;
+            font-family: monospace;
         }
 
-        .captcha-check-badge {
-            position: absolute;
-            top: 4px;
-            right: 4px;
-            background: #22c55e;
-            border-radius: 50%;
-            width: 16px;
-            height: 16px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 10px;
-            color: white;
-            font-weight: bold;
+        .footer {
+            font-size: 11px;
+            color: #4b5563;
+            text-align: center;
+            margin-top: 18px;
+        }
+
+        .pulse {
+            animation: pulseBtn 2s infinite;
+        }
+        @keyframes pulseBtn {
+            0% { box-shadow: 0 0 0 0 rgba(34, 197, 94, 0.6); }
+            70% { box-shadow: 0 0 0 12px rgba(34, 197, 94, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(34, 197, 94, 0); }
         }
     </style>
 </head>
@@ -374,32 +314,75 @@
     <div class="ambient-glow-1"></div>
     <div class="ambient-glow-2"></div>
 
-    <!-- MODAL DE COOKIES DISCRETO -->
-    <div id="modalCookie" class="modal-overlay">
-        <div class="modal-box">
+    <!-- Botão de Suporte Super IA -->
+    <button class="support-float-btn" onclick="abrirSuporteIA()">
+        <span>🤖</span>
+        <span>Suporte Super IA</span>
+    </button>
+
+    <!-- Modal de Cookies -->
+    <div id="modalCookies" class="modal-overlay">
+        <div style="background: #14131d; border: 1px solid #7828c8; border-radius: 16px; max-width: 440px; width: 100%; padding: 24px; text-align: left;">
             <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 12px;">
-                <span style="font-size: 30px; background: rgba(120,40,200,0.2); padding: 8px; border-radius: 12px; border: 1px solid rgba(120,40,200,0.4);">🍪</span>
+                <span style="font-size: 28px; padding: 6px; background: rgba(120,40,200,0.2); border-radius: 10px;">🍪</span>
                 <div>
-                    <h2 style="font-size: 18px; color: #c084fc; font-weight: bold;">Aviso de Cookies & Preferências</h2>
-                    <span style="font-size: 11px; color: #9ca3af;">Zumbi Hub • Configurações de Sessão</span>
+                    <h2 style="color: #c084fc; font-size: 17px; margin-bottom: 2px;">Aviso de Cookies & Preferências</h2>
+                    <span style="font-size: 11px; color: #9ca3af;">Zumbi Hub • Sessão de Execução</span>
                 </div>
             </div>
-
-            <p style="font-size: 12px; color: #d1d5db; line-height: 1.5; margin-bottom: 15px;">
-                Utilizamos cookies e tecnologias de navegação essenciais para otimizar sua conexão, manter a estabilidade dos scripts e garantir a segurança do portal.
+            <p style="font-size: 12px; color: #d1d5db; line-height: 1.5; margin-bottom: 14px;">
+                Utilizamos tecnologias de navegação essenciais para manter a estabilidade dos scripts e verificar a integridade da sua sessão.
             </p>
-
-            <div style="background: #09090f; border: 1px solid #2d2442; border-radius: 10px; padding: 12px; font-size: 12px; margin-bottom: 15px;">
-                <div style="color: #22c55e; margin-bottom: 8px;">
-                    ✓ <strong style="color: #fff;">Aceitar Cookies:</strong> Conexão prioritária rápida com carregamento de apenas <strong style="color: #22c55e;">10 segundos</strong>.
+            <div style="background: #0b0a12; border: 1px solid #2b253b; border-radius: 10px; padding: 12px; margin-bottom: 16px; font-size: 12px; line-height: 1.6;">
+                <div style="color: #22c55e; margin-bottom: 6px;">
+                    ✓ <strong>Aceitar Cookies:</strong> Carregamento prioritário de apenas <strong>10 segundos</strong>.
                 </div>
                 <div style="color: #f59e0b;">
-                    ⚠️ <strong style="color: #fff;">Rejeitar Cookies:</strong> Modo restrito sem retenção de sessão com carregamento de <strong style="color: #f59e0b;">20 segundos</strong>.
+                    ⚠️ <strong>Rejeitar Cookies:</strong> Modo restrito sem retenção com carregamento de <strong>20 segundos</strong>.
+                </div>
+            </div>
+            <button class="btn btn-green" onclick="responderCookies(true)">✓ Aceitar Cookies (Rápido - 10s)</button>
+            <button class="btn btn-secondary" onclick="responderCookies(false)">Rejeitar Cookies (Modo Restrito - 20s)</button>
+        </div>
+    </div>
+
+    <!-- Modal do Suporte Super IA -->
+    <div id="modalSuporte" class="modal-overlay" style="display: none;">
+        <div style="background: #14121e; border: 2px solid #7828c8; border-radius: 16px; max-width: 460px; width: 100%; height: 560px; display: flex; flex-direction: column; overflow: hidden; position: relative;">
+            <div style="background: #1b172a; border-bottom: 1px solid #2d2542; padding: 12px 16px; display: flex; align-items: center; justify-content: space-between;">
+                <div style="display: flex; align-items: center; gap: 10px;">
+                    <span style="font-size: 20px;">🤖</span>
+                    <div>
+                        <div style="font-size: 13px; font-weight: bold; color: #fff;">Super IA • Suporte Oficial</div>
+                        <div style="font-size: 10px; color: #9ca3af;">Atendimento Automatizado Zumbi Hub</div>
+                    </div>
+                </div>
+                <button onclick="fecharSuporteIA()" style="background: none; border: none; color: #9ca3af; font-size: 20px; cursor: pointer;">✕</button>
+            </div>
+
+            <div id="chatMessages" style="flex: 1; overflow-y: auto; padding: 16px; display: flex; flex-direction: column; gap: 10px; font-size: 12px;">
+                <div style="align-self: flex-start; max-width: 85%; background: #1e1a30; border: 1px solid #352c4d; border-radius: 12px 12px 12px 0; padding: 12px; color: #e5e7eb; line-height: 1.5;">
+                    <span style="color: #c084fc; font-weight: bold; display: block; margin-bottom: 4px; font-size: 10px;">🤖 Super IA</span>
+                    Olá! Sou a Super IA de Atendimento do Zumbi Hub. O que deseja aqui no suporte hoje? Se você encontrou algum problema ou erro, selecione uma das opções abaixo ou digite seu relato:
+                </div>
+
+                <div id="errorButtonsContainer" style="display: flex; flex-wrap: wrap; gap: 6px; padding-top: 6px;">
+                    <button onclick="enviarMensagemErro('Key não gerada com sucesso')" style="background: #1b172a; border: 1px solid #3f345c; color: #c084fc; padding: 6px 10px; border-radius: 8px; font-size: 11px; cursor: pointer;">Key não gerada com sucesso</button>
+                    <button onclick="enviarMensagemErro('Key inválida no executor')" style="background: #1b172a; border: 1px solid #3f345c; color: #c084fc; padding: 6px 10px; border-radius: 8px; font-size: 11px; cursor: pointer;">Key inválida no executor</button>
+                    <button onclick="enviarMensagemErro('Bug ou erro no site')" style="background: #1b172a; border: 1px solid #3f345c; color: #c084fc; padding: 6px 10px; border-radius: 8px; font-size: 11px; cursor: pointer;">Bug ou erro no site</button>
+                    <button onclick="enviarMensagemErro('Erro de entrada no aplicativo')" style="background: #1b172a; border: 1px solid #3f345c; color: #c084fc; padding: 6px 10px; border-radius: 8px; font-size: 11px; cursor: pointer;">Erro de entrada no aplicativo</button>
                 </div>
             </div>
 
-            <button class="btn btn-green" onclick="responderCookies(true)">✓ Aceitar Cookies (Recomendado - 10s)</button>
-            <button class="btn btn-secondary" onclick="responderCookies(false)" style="margin-top: 8px; font-size: 12px;">Rejeitar Cookies (Modo Restrito - 20s)</button>
+            <div style="padding: 12px; background: #13111d; border-top: 1px solid #29223b;">
+                <div id="chatInputArea" style="display: flex; gap: 8px;">
+                    <input id="chatInput" type="text" placeholder="Digite seu erro aqui..." style="flex: 1; background: #1a1727; color: white; border: 1px solid #3c3254; padding: 10px 12px; border-radius: 8px; font-size: 12px; outline: none;">
+                    <button onclick="enviarMensagemManual()" class="btn btn-green" style="width: auto; padding: 0 16px; margin: 0; font-size: 12px;">Enviar</button>
+                </div>
+                <div id="chatClosedAlert" style="display: none; background: rgba(153, 27, 27, 0.4); border: 1px solid #b91c1c; border-radius: 8px; padding: 10px; text-align: center; color: #fca5a5; font-size: 11px; font-weight: bold;">
+                    🔒 ENCERRADO CHAT DE IA
+                </div>
+            </div>
         </div>
     </div>
 
@@ -408,25 +391,27 @@
         <div class="logo-icon">🧟</div>
         <h1>Zumbi Hub - Verificação</h1>
         <p class="subtitle">Leia os detalhes do script, role até o final com calma e confirme.</p>
-        
-        <button id="btnVoice" class="btn btn-voice" onclick="lerTextoVoz()">🔊 Ouvir Texto em Voz Alta</button>
 
-        <div id="scrollBox1" class="scroll-box" onscroll="checkScrollEnd()">
+        <button type="button" class="btn btn-voice" onclick="lerTextoVoz()">
+            <span id="voiceBtnText">🔊 Ouvir Texto em Voz Alta</span>
+        </button>
+
+        <div id="scrollBox1" class="scroll-box" onscroll="verificarRolagem(this)">
             <h3>Bem-vindo ao Zumbi Hub (Atualização Recente)</h3>
-            <p>O Zumbi Hub passou por uma grande evolução estrutural e de performance nesta última atualização. Criamos novas ferramentas avançadas de automação, painéis de controle otimizados para criadores e sistemas de script voltados inteiramente para jogos de terror, sobrevivência e simulação no Roblox. Nosso objetivo é entregar estabilidade máxima, comandos rápidos e uma interface limpa que não trava o seu jogo durante as partidas mais intensas.</p>
-
+            <p>O Zumbi Hub passou por uma grande evolução estrutural e de performance nesta última atualização. Criamos novas ferramentas avançadas de automação, painéis de controle otimizados para criadores e sistemas de script voltados inteiramente para jogos de sobrevivência e simulação no Roblox.</p>
+            
             <h3>Novas Funcionalidades de Clique e Automação</h3>
-            <p>• <strong>Sistema Avançado de Cliques:</strong> Adicionamos novos gatilhos automáticos de clique com ajuste de velocidade por milissegundos, permitindo automações precisas em mini-games, inventários e coleta de itens dentro dos servidores.</p>
-            <p>• <strong>Painel Admin Aprimorado:</strong> Comandos flutuantes redimensionáveis, atalhos customizáveis direto na tela e visualização em tempo real de eventos e jogadores conectados no servidor.</p>
-            <p>• <strong>Otimização Geral de FPS:</strong> Redução drástica de lag e consumo de memória, garantindo fluidez mesmo em servidores lotados ou com gráficos pesados no máximo.</p>
-
+            <p>• <strong>Sistema Avançado de Cliques:</strong> Agora você pode configurar cliques automatizados com intervalos em milissegundos sem sobrecarregar seu dispositivo.</p>
+            <p>• <strong>Painel Admin Aprimorado:</strong> O novo painel admin integrado conta com opções completas de utilidades para testes e bypass de detecções.</p>
+            <p>• <strong>Otimização Geral:</strong> Reduzimos o consumo de CPU em mais de 45% para rodar suave em celulares e PCs fracos.</p>
+            
             <h3>Tutorial de Uso do Script</h3>
-            <p>1. Copie a chave gerada ao final deste site.<br>
-            2. Abra seu executor de preferência no Roblox (certifique-se de que ele está atualizado).<br>
-            3. Cole o código principal do Zumbi Hub na aba de execução.<br>
-            4. Insira sua chave quando solicitada na tela de login do script para destravar todas as funções do painel admin e sistema de cliques.</p>
-
-            <p style="text-align: center; color: #7828c8; font-weight: bold; margin-top: 15px;">[ Fim do documento oficial de atualizações - Sistema Verificado ]</p>
+            <p>1. Copie o script oficial gerado após concluir as etapas deste portal.</p>
+            <p>2. Abra o seu executor de confiança (Delta, Fluxus, Codex, Arceus X, etc.).</p>
+            <p>3. Inicie o jogo desejado dentro do Roblox e aguarde o mapa carregar.</p>
+            <p>4. Cole o código fornecido e clique em Executar.</p>
+            
+            <p style="text-align: center; color: #7828c8; font-weight: bold; margin-top: 15px;">[ Fim do documento oficial de atualizações ]</p>
         </div>
 
         <p id="scrollHint" style="font-size: 11px; color: #b060ff; text-align: center; margin-bottom: 8px; font-style: italic;">
@@ -434,7 +419,7 @@
         </p>
 
         <div class="checkbox-container" onclick="toggleRobotCheck()">
-            <input type="checkbox" id="robotCheck" onchange="validarLiberacao()" onclick="event.stopPropagation()">
+            <input type="checkbox" id="robotCheck" onchange="atualizarBotaoContinuar()" onclick="event.stopPropagation()">
             <label for="robotCheck">Li as informações com calma e não sou um robô</label>
         </div>
 
@@ -442,18 +427,20 @@
         <div class="footer">Zumbi Hub • Etapa 1 de 6</div>
     </div>
 
-    <!-- ================= ETAPA 1.1: Tela de Bloqueio Anti-Bot (< 3s) ================= -->
+    <!-- ================= ETAPA 1.1: Bloqueio Anti-Bot (< 3s) ================= -->
     <div id="stepBotBlocked" class="card white-theme">
         <div class="logo-icon">🤖</div>
         <h1>Bot Detectado!</h1>
         <p class="subtitle">O sistema identificou que você tentou rolar a página rápido demais ou burlar a leitura de segurança.</p>
-        
         <div class="scroll-box" style="text-align: center; padding-top: 25px;">
-            <p style="font-weight: bold; color: #dc2626; font-size: 15px;">Acesso temporariamente bloqueado por 1 dia devido a atividade suspeita de robô.</p>
-            <p style="margin-top: 10px;">Por favor, aguarde o período de punição ou tente acessar novamente mais tarde com um comportamento humano adequado.</p>
+            <p style="font-weight: bold; color: #dc2626; font-size: 15px;">
+                Acesso temporariamente bloqueado por 1 dia devido a atividade suspeita de robô.
+            </p>
+            <p style="margin-top: 10px;">
+                Por favor, aguarde o período de punição ou tente acessar novamente mais tarde com calma.
+            </p>
         </div>
-
-        <button class="btn" style="background: #dc2626;" onclick="reiniciarFluxo()">Tentar Novamente (Reiniciar)</button>
+        <button class="btn" style="background: #dc2626;" onclick="reiniciar()">Tentar Novamente (Reiniciar)</button>
         <div class="footer" style="color: #6b7280;">Zumbi Hub • Sistema de Proteção Anti-Fraud</div>
     </div>
 
@@ -462,587 +449,445 @@
         <div class="logo-icon">🚀</div>
         <h1>Atualização Disponível</h1>
         <p class="subtitle">Há uma nova versão de arquivos de otimização recomendada para o seu executor.</p>
-        
         <div class="scroll-box">
-            <p><strong>Notas da Versão:</strong> Correção de bugs de injeção em servidores de 64-bits, melhoria na estabilidade do sistema de cliques e correção de carregamento visual.</p>
-            <p>Deseja aplicar os arquivos atualizados agora para garantir melhor desempenho?</p>
+            <p><strong>Nova Versão 4.2:</strong> Foram adicionadas melhorias significativas de desempenho, correções de travamentos e novos recursos anti-ban para manter sua conta segura durante o uso de scripts no Roblox.</p>
+            <p>Deseja carregar a atualização recomendada para obter a melhor performance?</p>
         </div>
-
-        <button class="btn btn-green" onclick="nextStep(3)">Atualizar Agora</button>
-        <button class="btn btn-secondary" onclick="nextStep(3)" style="margin-top: 10px;">Pular Atualização</button>
+        <button class="btn btn-green" onclick="irParaEtapa('stepBan')">Atualizar Agora</button>
+        <button class="btn btn-secondary" style="margin-top: 10px;" onclick="irParaEtapa('stepBan')">Pular Atualização</button>
         <div class="footer">Zumbi Hub • Etapa 2 de 6</div>
     </div>
 
-    <!-- ================= ETAPA 3: Termos de Banimento & Isenção (Tema Branco com 2 Caixas Obrigatórias) ================= -->
+    <!-- ================= ETAPA 3: Termos de Banimento & Isenção ================= -->
     <div id="stepBan" class="card white-theme">
         <div class="logo-icon">⚠️</div>
         <h1>Aviso de Isenção Obrigatória</h1>
         <p class="subtitle">Você deve aceitar ambas as cláusulas abaixo para prosseguir com segurança.</p>
-
-        <div class="scroll-box space-y-2">
-            <p>
-                <strong>Cláusula 1:</strong> Concordo formalmente que, se minha conta for banida por utilizar scripts ou executores no Roblox, eu assumo total e inteira responsabilidade por meus atos.
-            </p>
-            <p style="margin-top: 10px;">
-                <strong>Cláusula 2:</strong> Isento completamente o criador do Zumbi Hub de qualquer culpa, perda de itens, banimentos permanentes ou sanções dentro do jogo. Não culparei o criador sob nenhuma hipótese.
-            </p>
+        
+        <div class="scroll-box">
+            <p><strong>Cláusula 1:</strong> Concordo formalmente que, se minha conta for banida por utilizar scripts ou executores no Roblox, eu assumo total e inteira responsabilidade por meus atos.</p>
+            <p><strong>Cláusula 2:</strong> Isento completamente o criador do Zumbi Hub de qualquer culpa, perda de itens, banimentos permanentes ou sanções dentro do jogo. Não culparei o criador sob nenhuma hipótese.</p>
         </div>
 
-        <!-- Caixa 1 Obrigatória -->
-        <div class="checkbox-container" style="background: #f9fafb; border-color: #d1d5db; margin-bottom: 8px;" onclick="toggleCheckBan(1)">
+        <div class="checkbox-container" style="background: #f9fafb; border-color: #d1d5db;" onclick="toggleCheck('agreeBanRisk')">
             <input type="checkbox" id="agreeBanRisk" onclick="event.stopPropagation()">
-            <label for="agreeBanRisk" style="color: #1f2937; font-size: 12px; font-weight: bold;">
-                1. Concordo com os termos e assumo o risco de banimento no Roblox
-            </label>
+            <label for="agreeBanRisk" style="color: #1f2937; font-weight: 600;">1. Concordo com os termos e assumo o risco de banimento no Roblox</label>
         </div>
 
-        <!-- Caixa 2 Obrigatória -->
-        <div class="checkbox-container" style="background: #f9fafb; border-color: #d1d5db; margin-bottom: 12px;" onclick="toggleCheckBan(2)">
-            <input type="checkbox" id="agreeNoBlameCreator" onclick="event.stopPropagation()">
-            <label for="agreeNoBlameCreator" style="color: #1f2937; font-size: 12px; font-weight: bold;">
-                2. Declaro que NÃO vou culpar o criador do Zumbi Hub por nenhum motivo
-            </label>
+        <div class="checkbox-container" style="background: #f9fafb; border-color: #d1d5db;" onclick="toggleCheck('agreeNoBlame')">
+            <input type="checkbox" id="agreeNoBlame" onclick="event.stopPropagation()">
+            <label for="agreeNoBlame" style="color: #1f2937; font-weight: 600;">2. Declaro que NÃO vou culpar o criador do Zumbi Hub por nenhum motivo</label>
         </div>
 
-        <div id="banError" style="display: none; color: #dc2626; font-size: 11px; font-weight: bold; background: #fee2e2; border: 1px solid #fca5a5; padding: 8px; border-radius: 8px; text-align: center; margin-bottom: 10px;">
+        <div id="banError" style="display: none; color: #b91c1c; font-size: 11px; font-weight: bold; background: #fee2e2; padding: 8px; border-radius: 6px; text-align: center; margin-bottom: 8px;">
             ⚠️ Você precisa assinalar AMBAS as opções obrigatórias para continuar!
         </div>
 
-        <button class="btn btn-green" onclick="validarEtapaBan()">Avançar para Desafio Anti-Bot</button>
+        <button class="btn btn-green" onclick="validarTermosBan()">Avançar para Desafio Anti-Bot</button>
         <div class="footer" style="color: #6b7280;">Zumbi Hub • Etapa 3 de 6 (Aceite Obrigatório)</div>
     </div>
 
-    <!-- ================= ETAPA 4: DESAFIO ANTI-BOT (ÔNIBUS / PLACAS + 2 VARREDURAS) ================= -->
+    <!-- ================= ETAPA 4: Desafio Anti-Bot ================= -->
     <div id="stepAntiBotChallenge" class="card">
         <div class="logo-icon">🛡️</div>
         <h1>Verificação Anti-Bot Final</h1>
-        <p class="subtitle">Complete o desafio visual e a confirmação de presença humana para liberar a contagem da sua chave.</p>
+        <p class="subtitle">Complete o desafio visual e a confirmação de presença humana para liberar sua chave.</p>
 
-        <!-- PARTE 1: CAPTCHA VISUAL DO ÔNIBUS & PLACA VERMELHA -->
-        <div style="background: #0b0a13; border: 2px solid rgba(120,40,200,0.8); border-radius: 12px; padding: 14px; margin-bottom: 15px; text-align: left;">
-            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
-                <span style="font-size: 12px; font-weight: bold; color: #c084fc;">
-                    1. Desafio Visual: <span style="color: #f59e0b;">Ônibus 🚌 ou Placas Vermelhas 🛑</span>
-                </span>
-                <span id="visualStatusBadge" style="display: none; font-size: 11px; color: #22c55e; font-weight: bold;">✓ Validado</span>
+        <!-- Desafio Visual: Ônibus ou Placas Vermelhas -->
+        <div style="background: #0b0a13; border: 2px solid rgba(120,40,200,0.8); border-radius: 12px; padding: 14px; margin-bottom: 14px; text-align: left;">
+            <div style="font-size: 12px; font-weight: bold; color: #c084fc; margin-bottom: 6px;">
+                1. Desafio Visual: <span style="color: #f59e0b;">Ônibus 🚌 ou Placas Vermelhas 🛑</span>
             </div>
-
             <p style="font-size: 11px; color: #9ca3af; margin-bottom: 10px;">
-                Selecione todas as imagens que contenham um <strong>ônibus</strong> ou uma <strong>placa vermelha de trânsito</strong>:
+                Selecione todas as imagens que contenham um ônibus ou uma placa de trânsito vermelha:
             </p>
 
-            <div id="captchaGrid" class="captcha-grid">
-                <!-- 9 quadradinhos -->
+            <div class="captcha-grid">
+                <div class="captcha-tile" onclick="toggleCaptchaTile(this, true)"><span class="emoji">🚌</span><span class="label">Ônibus Coletivo</span></div>
+                <div class="captcha-tile" onclick="toggleCaptchaTile(this, false)"><span class="emoji">🚗</span><span class="label">Carro Comum</span></div>
+                <div class="captcha-tile" onclick="toggleCaptchaTile(this, true)"><span class="emoji">🛑</span><span class="label">Placa PARE</span></div>
+                <div class="captcha-tile" onclick="toggleCaptchaTile(this, false)"><span class="emoji">🚦</span><span class="label">Semáforo</span></div>
+                <div class="captcha-tile" onclick="toggleCaptchaTile(this, true)"><span class="emoji">🚍</span><span class="label">Ônibus Escolar</span></div>
+                <div class="captcha-tile" onclick="toggleCaptchaTile(this, false)"><span class="emoji">🚲</span><span class="label">Bicicleta</span></div>
+                <div class="captcha-tile" onclick="toggleCaptchaTile(this, true)"><span class="emoji">⛔</span><span class="label">Placa Proibido</span></div>
+                <div class="captcha-tile" onclick="toggleCaptchaTile(this, false)"><span class="emoji">✈️</span><span class="label">Avião</span></div>
+                <div class="captcha-tile" onclick="toggleCaptchaTile(this, true)"><span class="emoji">🚎</span><span class="label">Ônibus Elétrico</span></div>
             </div>
 
-            <div id="visualError" style="display: none; color: #f87171; font-size: 11px; font-weight: bold; background: rgba(153, 27, 27, 0.4); border: 1px solid #991b1b; padding: 8px; border-radius: 8px; text-align: center; margin-bottom: 10px;"></div>
-
-            <button id="btnValidarVisual" class="btn" onclick="validarCaptchaVisual()" style="font-size: 12px; padding: 10px;">
-                Confirmar Seleção de Ônibus e Placas
-            </button>
-            <div id="visualSuccessNotice" style="display: none; background: rgba(6, 78, 59, 0.6); border: 1px solid #059669; padding: 8px; border-radius: 8px; text-align: center; color: #34d399; font-size: 12px; font-weight: bold;">
-                ✓ Desafio de Ônibus e Placas Concluído!
-            </div>
-        </div>
-
-        <!-- PARTE 2: BOTÃO "NÃO SOU UM ROBÔ" COM AS 2 VARREDURAS COMPLETAS -->
-        <div id="telemetrySection" style="background: #0b0a13; border: 2px solid #262035; opacity: 0.5; border-radius: 12px; padding: 14px; margin-bottom: 15px; text-align: left; transition: all 0.3s;">
-            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
-                <span style="font-size: 12px; font-weight: bold; color: #f59e0b;">2. Verificação de Presença Humana:</span>
-                <span id="telemetryStatusBadge" style="display: none; font-size: 11px; color: #22c55e; font-weight: bold;">✓ 100% Humano Confirmado</span>
+            <div id="captchaVisualError" style="display: none; color: #f87171; font-size: 11px; margin-bottom: 8px; text-align: center;">
+                ⚠️ Seleção incorreta! Certifique-se de marcar todos os ônibus e placas vermelhas.
             </div>
 
-            <div class="checkbox-container" id="telemetryBox" onclick="acionarVarreduraTelemetria()" style="background: #131120; margin-bottom: 10px;">
-                <input type="checkbox" id="telemetryRobotCheck" disabled>
-                <label for="telemetryRobotCheck" id="telemetryLabel" style="font-size: 12px; color: #d1d5db;">
-                    Eu não sou um robô (Clique para validar)
-                </label>
-            </div>
-
-            <div id="telemetryScanBox" style="display: none; margin-bottom: 10px;">
-                <div style="width: 100%; background: #1b172a; height: 8px; border-radius: 4px; overflow: hidden; border: 1px solid #3b3154; margin-bottom: 8px;">
-                    <div id="scanBar" style="width: 0%; height: 100%; background: linear-gradient(90deg, #f59e0b, #22c55e); transition: width 0.3s;"></div>
-                </div>
-                <div id="scanLogs" style="background: #07070a; border: 1px solid #2b243d; border-radius: 8px; padding: 8px; font-family: monospace; font-size: 10px; color: #d1d5db; line-height: 1.6;"></div>
-            </div>
-
-            <div id="telemetrySuccessNotice" style="display: none; background: #07070a; border: 1px solid #059669; border-radius: 8px; padding: 8px; font-family: monospace; font-size: 10px; color: #34d399; line-height: 1.6;">
-                ✓ Varredura 1: Monitoramento de Navegação e Latência [APROVADO]<br>
-                ✓ Varredura 2: Resolução, Dispositivo e GPU [SEM BOTS DETECTADOS]
+            <button id="btnValidarVisual" class="btn" onclick="validarVisualCaptcha()">Confirmar Seleção</button>
+            <div id="visualSuccessMsg" style="display: none; color: #4ade80; font-size: 12px; font-weight: bold; text-align: center; padding: 6px; background: rgba(34,197,94,0.15); border-radius: 8px;">
+                ✓ Desafio Visual Concluído com Sucesso!
             </div>
         </div>
 
-        <button id="btnIrCarregamento" class="btn btn-green" disabled onclick="iniciarCarregamento()">
-            Ir para Carregamento da Chave
-        </button>
+        <!-- Botão Não Sou Robô + 2 Varreduras -->
+        <div id="humanCheckContainer" style="background: #0b0a13; border: 2px solid #262035; opacity: 0.5; border-radius: 12px; padding: 14px; text-align: left; margin-bottom: 14px;">
+            <div style="font-size: 12px; font-weight: bold; color: #f59e0b; margin-bottom: 8px;">
+                2. Verificação de Presença Humana:
+            </div>
+            <div class="checkbox-container" id="humanCheckBtn" onclick="executarVarreduras()">
+                <input type="checkbox" id="humanRobotCheck" disabled>
+                <label for="humanRobotCheck" id="humanCheckLabel">Eu não sou um robô (Clique para validar)</label>
+            </div>
+
+            <div id="scanLogs" style="display: none; font-family: monospace; font-size: 10px; color: #d1d5db; background: #07070a; border: 1px solid #2b243d; border-radius: 8px; padding: 10px; margin-top: 8px; line-height: 1.6;">
+            </div>
+        </div>
+
+        <button id="btnIrParaLoad" class="btn btn-green" disabled onclick="iniciarCarregamento()">Ir para Carregamento da Chave</button>
         <div class="footer">Zumbi Hub • Etapa 4 de 6</div>
     </div>
 
-    <!-- ================= ETAPA 5: TELA DE CARREGAMENTO (10s OU 20s) ================= -->
+    <!-- ================= ETAPA 5: Carregamento (10s ou 20s) ================= -->
     <div id="stepLoad" class="card">
         <div class="logo-icon">⏳</div>
         <h1>Gerando Chave Segura...</h1>
         
-        <div style="margin: 20px 0; padding: 18px; background: #0e0c18; border: 2px solid #7828c8; border-radius: 16px; text-align: center; box-shadow: 0 0 25px rgba(120,40,200,0.3);">
-            <span style="font-size: 11px; color: #9ca3af; text-transform: uppercase; letter-spacing: 1.5px; display: block; margin-bottom: 4px;">Tempo Restante</span>
-            <div id="loadCountdownNumber" style="font-size: 38px; font-weight: 800; color: #c084fc; font-family: monospace;">
-                10 <span style="font-size: 18px; color: #d1d5db; font-family: sans-serif;">segundos</span>
+        <div style="margin: 20px 0; padding: 16px; background: #0e0c18; border: 2px solid #7828c8; border-radius: 16px; text-align: center;">
+            <span style="font-size: 11px; color: #9ca3af; text-transform: uppercase; letter-spacing: 2px; display: block; margin-bottom: 4px;">Tempo Restante</span>
+            <div style="font-size: 38px; font-weight: 800; color: #c084fc; font-family: monospace;">
+                <span id="loadTimer">10</span> <span style="font-size: 18px; color: #9ca3af; font-family: sans-serif;">segundos</span>
             </div>
-            <span id="loadNoticeSubtitle" style="font-size: 11px; color: #9ca3af; display: block; margin-top: 6px;">
-                ✓ Modo com Cookies Ativos: Carregamento rápido de 10 segundos
+            <span id="loadSubNote" style="font-size: 11px; color: #9ca3af; display: block; margin-top: 4px;">
+                ✓ Modo com Cookies: Carregamento de 10 segundos
             </span>
         </div>
 
-        <div style="width: 100%; background: #08080b; height: 12px; border-radius: 6px; border: 1px solid #2d2d3d; overflow: hidden; margin-bottom: 12px;">
+        <div style="width: 100%; background: #08080b; height: 12px; border-radius: 6px; border: 1px solid #2d2d3d; overflow: hidden; margin-bottom: 16px;">
             <div id="progressBar" style="width: 0%; height: 100%; background: linear-gradient(90deg, #7828c8, #22c55e); transition: width 1s linear;"></div>
         </div>
 
-        <div style="font-size: 11px; color: #9ca3af; font-family: monospace; text-align: center;">
+        <div style="font-size: 12px; color: #9ca3af; text-align: center; font-family: monospace;">
             Aguarde a finalização da assinatura digital do token...
         </div>
-
-        <div id="loadFooter" class="footer">Zumbi Hub • Etapa 5 de 6</div>
+        <div class="footer">Zumbi Hub • Etapa 5 de 6</div>
     </div>
 
-    <!-- ================= ETAPA 6: TELA FINAL COM CHAVE ================= -->
+    <!-- ================= ETAPA 6: Chave Pronta ================= -->
     <div id="stepFinal" class="card">
         <div class="logo-icon">🎉</div>
         <h1>Chave Pronta com Sucesso!</h1>
-        <p class="subtitle" id="avisoVelocidade">
-            Sua verificação e varreduras foram concluídas com sucesso. Copie sua chave abaixo:
-        </p>
+        <p class="subtitle">Sua verificação foi concluída com sucesso. Copie sua chave de acesso abaixo:</p>
 
         <div class="key-box" id="keyDisplay">ZUMBI-KEY-5592-VIP</div>
 
-        <button id="btnCopiar" class="btn btn-green pulse" onclick="copiarChave()">📋 Copiar Chave de Acesso</button>
-        <button class="btn btn-secondary" onclick="baixarKeyTxt()" style="margin-top: 10px;">💾 Baixar Arquivo da Chave (.txt)</button>
-        
-        <div style="margin-top: 18px; padding-top: 12px; border-top: 1px solid #252035; text-align: center;">
-            <a href="javascript:void(0)" onclick="reiniciarFluxo()" style="color: #9ca3af; font-size: 11px; text-decoration: none;">🔄 Reiniciar verificação</a>
-        </div>
+        <button class="btn btn-green pulse" onclick="copiarChave()">
+            <span id="copyBtnText">📋 Copiar Chave de Acesso</span>
+        </button>
 
+        <button class="btn btn-secondary" style="margin-top: 10px;" onclick="baixarKeyTxt()">
+            💾 Baixar Arquivo da Chave (.txt)
+        </button>
+
+        <div style="margin-top: 18px; padding-top: 12px; border-top: 1px solid #252035; text-align: center;">
+            <button onclick="reiniciar()" style="background: none; border: none; color: #6b7280; font-size: 12px; cursor: pointer;">🔄 Reiniciar verificação</button>
+        </div>
         <div class="footer">Zumbi Hub • Etapa 6 de 6 (Sistema Oficial Concluído)</div>
     </div>
 
     <script>
-        let audioCtx = null;
-        function getAudioCtx() {
-            if (!audioCtx && (window.AudioContext || window.webkitAudioContext)) {
-                audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-            }
-            if (audioCtx && audioCtx.state === 'suspended') {
-                audioCtx.resume();
-            }
-            return audioCtx;
-        }
-
-        function playClickSound() {
+        // Efeitos Sonoros com Web Audio API
+        const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        function playSfx(freq = 600, type = 'sine', duration = 0.08) {
             try {
-                const ctx = getAudioCtx();
-                if (!ctx) return;
-                const osc = ctx.createOscillator();
-                const gain = ctx.createGain();
-                osc.type = 'sine';
-                osc.frequency.setValueAtTime(800, ctx.currentTime);
-                osc.frequency.exponentialRampToValueAtTime(240, ctx.currentTime + 0.04);
-                gain.gain.setValueAtTime(0.12, ctx.currentTime);
-                gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.04);
+                if (audioCtx.state === 'suspended') audioCtx.resume();
+                const osc = audioCtx.createOscillator();
+                const gain = audioCtx.createGain();
+                osc.type = type;
+                osc.frequency.setValueAtTime(freq, audioCtx.currentTime);
+                gain.gain.setValueAtTime(0.12, audioCtx.currentTime);
+                gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + duration);
                 osc.connect(gain);
-                gain.connect(ctx.destination);
+                gain.connect(audioCtx.destination);
                 osc.start();
-                osc.stop(ctx.currentTime + 0.04);
-            } catch(e) {}
+                osc.stop(audioCtx.currentTime + duration);
+            } catch (e) {}
         }
 
-        function playSuccessSound() {
-            try {
-                const ctx = getAudioCtx();
-                if (!ctx) return;
-                const now = ctx.currentTime;
-                const notes = [523.25, 659.25, 783.99, 1046.5];
-                notes.forEach((freq, idx) => {
-                    const osc = ctx.createOscillator();
-                    const gain = ctx.createGain();
-                    osc.type = 'sine';
-                    osc.frequency.setValueAtTime(freq, now + idx * 0.07);
-                    gain.gain.setValueAtTime(0.12, now + idx * 0.07);
-                    gain.gain.exponentialRampToValueAtTime(0.001, now + idx * 0.07 + 0.25);
-                    osc.connect(gain);
-                    gain.connect(ctx.destination);
-                    osc.start(now + idx * 0.07);
-                    osc.stop(now + idx * 0.07 + 0.25);
-                });
-            } catch(e) {}
+        let cookiesAceitos = true;
+        let jaRolou = false;
+        let tempoInicio = Date.now();
+        let captchaPassed = false;
+        let telemetryPassed = false;
+        const KEY_VAL = 'ZUMBI-KEY-5592-VIP';
+
+        function irParaEtapa(stepId) {
+            playSfx(550);
+            document.querySelectorAll('.card').forEach(c => c.classList.remove('active'));
+            const target = document.getElementById(stepId);
+            if (target) target.classList.add('active');
         }
-
-        const CAPTCHA_TILES = [
-            { id: 1, emoji: '🚌', label: 'Ônibus Coletivo', correct: true },
-            { id: 2, emoji: '🚗', label: 'Carro Comum', correct: false },
-            { id: 3, emoji: '🛑', label: 'Placa PARE', correct: true },
-            { id: 4, emoji: '🚦', label: 'Semáforo', correct: false },
-            { id: 5, emoji: '🚍', label: 'Ônibus Urbano', correct: true },
-            { id: 6, emoji: '🚲', label: 'Bicicleta', correct: false },
-            { id: 7, emoji: '⛔', label: 'Placa Proibido', correct: true },
-            { id: 8, emoji: '✈️', label: 'Avião', correct: false },
-            { id: 9, emoji: '🚎', label: 'Trólebus', correct: true }
-        ];
-
-        let cookiesAccepted = null;
-        let jaRolouAteOFim = false;
-        let tempoInicioLeitura = Date.now();
-        let isSpeaking = false;
-        let selectedTiles = [];
-        let visualCaptchaPassed = false;
-        let telemetryComplete = false;
-        let isScanningTelemetry = false;
 
         function responderCookies(aceitou) {
-            playClickSound();
-            cookiesAccepted = aceitou;
-            document.getElementById('modalCookie').style.display = 'none';
-
-            const btn = document.getElementById('btnIrCarregamento');
-            btn.innerText = `Ir para Carregamento da Chave (${aceitou ? '10s' : '20s'})`;
+            playSfx(600);
+            cookiesAceitos = aceitou;
+            document.getElementById('modalCookies').style.display = 'none';
         }
 
-        function checkScrollEnd() {
-            const box = document.getElementById('scrollBox1');
-            if (box.scrollTop + box.clientHeight >= box.scrollHeight - 12) {
-                jaRolouAteOFim = true;
+        // Suporte Super IA
+        function abrirSuporteIA() {
+            playSfx(650);
+            document.getElementById('modalSuporte').style.display = 'flex';
+        }
+        function fecharSuporteIA() {
+            playSfx(400);
+            document.getElementById('modalSuporte').style.display = 'none';
+        }
+
+        function enviarMensagemErro(erroTxt) {
+            document.getElementById('errorButtonsContainer').style.display = 'none';
+            adicionarMensagemUsuario(`Erro, ${erroTxt}`);
+            processarRespostaSuporte(erroTxt);
+        }
+
+        function enviarMensagemManual() {
+            const input = document.getElementById('chatInput');
+            const msg = input.value.trim();
+            if (!msg) return;
+            input.value = '';
+            document.getElementById('errorButtonsContainer').style.display = 'none';
+            adicionarMensagemUsuario(msg);
+            processarRespostaSuporte(msg);
+        }
+
+        function adicionarMensagemUsuario(txt) {
+            playSfx(700);
+            const container = document.getElementById('chatMessages');
+            const userDiv = document.createElement('div');
+            userDiv.style.cssText = 'align-self: flex-end; max-width: 85%; background: linear-gradient(90deg, #7828c8, #9333ea); border-radius: 12px 12px 0 12px; padding: 10px 12px; color: white; line-height: 1.4;';
+            userDiv.innerText = txt;
+            container.appendChild(userDiv);
+            container.scrollTop = container.scrollHeight;
+        }
+
+        function adicionarMensagemIA(txt) {
+            const container = document.getElementById('chatMessages');
+            const botDiv = document.createElement('div');
+            botDiv.style.cssText = 'align-self: flex-start; max-width: 85%; background: #1e1a30; border: 1px solid #352c4d; border-radius: 12px 12px 12px 0; padding: 12px; color: #e5e7eb; line-height: 1.5;';
+            botDiv.innerHTML = `<span style="color: #c084fc; font-weight: bold; display: block; margin-bottom: 4px; font-size: 10px;">🤖 Super IA</span>${txt}`;
+            container.appendChild(botDiv);
+            container.scrollTop = container.scrollHeight;
+        }
+
+        function processarRespostaSuporte(relato) {
+            setTimeout(() => {
+                adicionarMensagemIA(`Tudo bem. Nós entraremos em contato e resolveremos isso o mais rápido possível. Por favor, aguarde enquanto realizamos a verificação...`);
+                
+                setTimeout(() => {
+                    adicionarMensagemIA(`🔍 Realizando varredura profunda no sistema Zumbi Hub... Analisando servidores de chave e Roblox bypass.`);
+                    
+                    setTimeout(() => {
+                        playSfx(900, 'triangle', 0.2);
+                        adicionarMensagemIA(`Não encontramos nenhum erro no nosso sistema, obrigado. Todos os nós de injeção estão 100% operacionais.`);
+                        
+                        document.getElementById('chatInputArea').style.display = 'none';
+                        document.getElementById('chatClosedAlert').style.display = 'block';
+                    }, 4000);
+                }, 2000);
+            }, 800);
+        }
+
+        // Leitura de Voz
+        function lerTextoVoz() {
+            playSfx(600);
+            if ('speechSynthesis' in window) {
+                window.speechSynthesis.cancel();
+                const texto = "Bem-vindo ao Zumbi Hub atualização recente. Sistema avançado de cliques milissegundo, painel admin aprimorado e tutorial completo de execução.";
+                const utter = new SpeechSynthesisUtterance(texto);
+                utter.lang = 'pt-BR';
+                window.speechSynthesis.speak(utter);
+            }
+        }
+
+        // Etapa 1
+        function verificarRolagem(box) {
+            if (box.scrollTop + box.clientHeight >= box.scrollHeight - 10) {
+                jaRolou = true;
                 const hint = document.getElementById('scrollHint');
                 if (hint) {
                     hint.style.color = '#22c55e';
-                    hint.innerText = '✓ Leitura completa confirmada!';
+                    hint.innerText = '✓ Leitura concluída! Agora marque a caixa abaixo.';
                 }
-                validarLiberacao();
+                atualizarBotaoContinuar();
             }
         }
 
         function toggleRobotCheck() {
-            playClickSound();
-            const checkbox = document.getElementById('robotCheck');
-            checkbox.checked = !checkbox.checked;
-            validarLiberacao();
+            const chk = document.getElementById('robotCheck');
+            chk.checked = !chk.checked;
+            atualizarBotaoContinuar();
         }
 
-        function toggleCheckBan(num) {
-            playClickSound();
-            if (num === 1) {
-                const c = document.getElementById('agreeBanRisk');
-                c.checked = !c.checked;
-            } else {
-                const c = document.getElementById('agreeNoBlameCreator');
-                c.checked = !c.checked;
-            }
-            if (document.getElementById('agreeBanRisk').checked && document.getElementById('agreeNoBlameCreator').checked) {
-                document.getElementById('banError').style.display = 'none';
-            }
-        }
-
-        function validarLiberacao() {
-            const checkbox = document.getElementById('robotCheck').checked;
-            const btn = document.getElementById('btnContinuar');
-            btn.disabled = !(checkbox && jaRolouAteOFim);
+        function atualizarBotaoContinuar() {
+            const chk = document.getElementById('robotCheck').checked;
+            document.getElementById('btnContinuar').disabled = !(chk && jaRolou);
         }
 
         function verificarComportamentoBot() {
-            playClickSound();
-            const tempoGasto = (Date.now() - tempoInicioLeitura) / 1000;
-
+            playSfx(600);
+            const tempoGasto = (Date.now() - tempoInicio) / 1000;
             if (tempoGasto < 3.0) {
-                document.querySelectorAll('.card').forEach(el => el.classList.remove('active'));
-                document.getElementById('stepBotBlocked').classList.add('active');
-                return;
-            }
-
-            nextStep('Update');
-        }
-
-        function validarEtapaBan() {
-            playClickSound();
-            const c1 = document.getElementById('agreeBanRisk').checked;
-            const c2 = document.getElementById('agreeNoBlameCreator').checked;
-
-            if (!c1 || !c2) {
-                document.getElementById('banError').style.display = 'block';
-                return;
-            }
-            document.getElementById('banError').style.display = 'none';
-            nextStep('AntiBot');
-        }
-
-        function renderizarCaptchaGrid() {
-            const grid = document.getElementById('captchaGrid');
-            grid.innerHTML = '';
-            selectedTiles = [];
-            visualCaptchaPassed = false;
-
-            CAPTCHA_TILES.forEach(tile => {
-                const el = document.createElement('div');
-                el.className = 'captcha-tile';
-                el.id = 'tile_' + tile.id;
-                el.onclick = () => toggleTile(tile.id);
-                el.innerHTML = `
-                    <span style="font-size: 28px; margin-bottom: 2px;">${tile.emoji}</span>
-                    <span style="font-size: 9px; color: #d1d5db; text-align: center; line-height: 1.2;">${tile.label}</span>
-                `;
-                grid.appendChild(el);
-            });
-        }
-
-        function toggleTile(id) {
-            playClickSound();
-            if (visualCaptchaPassed) return;
-
-            document.getElementById('visualError').style.display = 'none';
-            const index = selectedTiles.indexOf(id);
-            const tileEl = document.getElementById('tile_' + id);
-
-            if (index > -1) {
-                selectedTiles.splice(index, 1);
-                tileEl.classList.remove('selected');
-                const badge = tileEl.querySelector('.captcha-check-badge');
-                if (badge) badge.remove();
+                irParaEtapa('stepBotBlocked');
             } else {
-                selectedTiles.push(id);
-                tileEl.classList.add('selected');
-                const badge = document.createElement('div');
-                badge.className = 'captcha-check-badge';
-                badge.innerText = '✓';
-                tileEl.appendChild(badge);
+                irParaEtapa('stepUpdate');
             }
         }
 
-        function validarCaptchaVisual() {
-            playClickSound();
-            const correctIds = CAPTCHA_TILES.filter(t => t.correct).map(t => t.id);
+        // Etapa 3
+        function toggleCheck(id) {
+            playSfx(500);
+            const el = document.getElementById(id);
+            el.checked = !el.checked;
+        }
 
-            const hasWrong = selectedTiles.some(id => !correctIds.includes(id));
-            const missingCorrect = correctIds.some(id => !selectedTiles.includes(id));
-
-            if (hasWrong || missingCorrect || selectedTiles.length === 0) {
-                const err = document.getElementById('visualError');
-                err.innerText = "Seleção incorreta! Certifique-se de marcar TODOS os ÔNIBUS e TODAS as PLACAS VERMELHAS.";
+        function validarTermosBan() {
+            playSfx(600);
+            const c1 = document.getElementById('agreeBanRisk').checked;
+            const c2 = document.getElementById('agreeNoBlame').checked;
+            const err = document.getElementById('banError');
+            if (!c1 || !c2) {
                 err.style.display = 'block';
                 return;
             }
-
-            playSuccessSound();
-            visualCaptchaPassed = true;
-            document.getElementById('visualError').style.display = 'none';
-            document.getElementById('btnValidarVisual').style.display = 'none';
-            document.getElementById('visualSuccessNotice').style.display = 'block';
-            document.getElementById('visualStatusBadge').style.display = 'inline';
-
-            const telSec = document.getElementById('telemetrySection');
-            telSec.style.opacity = '1';
-            telSec.style.borderColor = '#f59e0b';
-            document.getElementById('telemetryBox').style.borderColor = '#f59e0b';
-            document.getElementById('telemetryBox').style.cursor = 'pointer';
+            err.style.display = 'none';
+            irParaEtapa('stepAntiBotChallenge');
         }
 
-        function acionarVarreduraTelemetria() {
-            if (!visualCaptchaPassed || telemetryComplete || isScanningTelemetry) return;
-            playClickSound();
+        // Etapa 4: Desafio Anti-Bot
+        function toggleCaptchaTile(tile, isCorrect) {
+            playSfx(500);
+            if (captchaPassed) return;
+            tile.classList.toggle('selected');
+            tile.dataset.correct = isCorrect;
+            document.getElementById('captchaVisualError').style.display = 'none';
+        }
 
-            document.getElementById('telemetryRobotCheck').checked = true;
-            isScanningTelemetry = true;
+        function validarVisualCaptcha() {
+            playSfx(600);
+            const allTiles = document.querySelectorAll('.captcha-tile');
+            let hasWrong = false;
+            let missing = false;
 
-            document.getElementById('telemetryLabel').innerText = "Executando varreduras de segurança em background...";
-            document.getElementById('telemetryScanBox').style.display = 'block';
-
-            const screenRes = `${window.screen.width}x${window.screen.height}`;
-
-            const steps = [
-                { pct: 25, log: "📡 Varredura 1: Analisando padrões de navegação e latência... [OK]" },
-                { pct: 50, log: `🖥️ Varredura 2: Resolução de tela (${screenRes}) e GPU... [AUTÊNTICO]` },
-                { pct: 75, log: "🖱️ Varredura 3: Trajetória, aceleração e micromovimentos do cursor... [HUMANO]" },
-                { pct: 90, log: "🔒 Varredura 4: Gerando assinatura de integridade de sessão..." },
-                { pct: 100, log: "✅ Duas varreduras completas concluídas com sucesso! Nenhum robô detectado." }
-            ];
-
-            const logsDiv = document.getElementById('scanLogs');
-            logsDiv.innerHTML = '';
-
-            steps.forEach((st, i) => {
-                setTimeout(() => {
-                    document.getElementById('scanBar').style.width = st.pct + '%';
-                    const line = document.createElement('div');
-                    line.innerText = st.log;
-                    logsDiv.appendChild(line);
-
-                    if (i === steps.length - 1) {
-                        isScanningTelemetry = false;
-                        telemetryComplete = true;
-                        playSuccessSound();
-
-                        document.getElementById('telemetryLabel').innerText = "Duas varreduras de segurança finalizadas com sucesso!";
-                        document.getElementById('telemetryStatusBadge').style.display = 'inline';
-                        document.getElementById('telemetrySuccessNotice').style.display = 'block';
-                        document.getElementById('btnIrCarregamento').disabled = false;
-                    }
-                }, (i + 1) * 800);
+            allTiles.forEach(t => {
+                const isSelected = t.classList.contains('selected');
+                const isCorrect = t.dataset.correct === 'true';
+                if (isSelected && !isCorrect) hasWrong = true;
+                if (!isSelected && isCorrect) missing = true;
             });
+
+            if (hasWrong || missing) {
+                document.getElementById('captchaVisualError').style.display = 'block';
+                return;
+            }
+
+            captchaPassed = true;
+            playSfx(880, 'triangle', 0.2);
+            document.getElementById('btnValidarVisual').style.display = 'none';
+            document.getElementById('visualSuccessMsg').style.display = 'block';
+
+            // Desbloqueia parte 2
+            const humanBox = document.getElementById('humanCheckContainer');
+            humanBox.style.opacity = '1';
+            humanBox.style.borderColor = '#f59e0b';
         }
 
+        function executarVarreduras() {
+            if (!captchaPassed || telemetryPassed) return;
+            playSfx(650);
+
+            const chk = document.getElementById('humanRobotCheck');
+            chk.checked = true;
+            document.getElementById('humanCheckLabel').innerText = 'Executando varreduras de segurança...';
+
+            const logsBox = document.getElementById('scanLogs');
+            logsBox.style.display = 'block';
+
+            setTimeout(() => {
+                logsBox.innerHTML += '<div>📡 Varredura 1: Monitoramento de latência e tela... [OK]</div>';
+                setTimeout(() => {
+                    logsBox.innerHTML += '<div>🖱️ Varredura 2: Micromovimentos do cursor e GPU... [HUMANO CONFIRMADO]</div>';
+                    logsBox.innerHTML += '<div style="color: #4ade80; margin-top: 4px;">✓ Duas varreduras concluídas com 100% de integridade!</div>';
+                    telemetryPassed = true;
+                    document.getElementById('humanCheckLabel').innerText = '✓ Verificação Humana Concluída!';
+                    document.getElementById('btnIrParaLoad').disabled = false;
+                    playSfx(800, 'triangle', 0.15);
+                }, 1200);
+            }, 800);
+        }
+
+        // Etapa 5: Carregamento
         function iniciarCarregamento() {
-            playClickSound();
-            if (!visualCaptchaPassed || !telemetryComplete) return;
+            irParaEtapa('stepLoad');
+            const duracao = cookiesAceitos ? 10 : 20;
+            document.getElementById('loadSubNote').innerText = cookiesAceitos 
+                ? '✓ Modo com Cookies: Carregamento rápido de 10 segundos'
+                : '⚠️ Modo sem Cookies: Carregamento de 20 segundos';
 
-            let duration = (cookiesAccepted === false) ? 20 : 10;
-            let seconds = duration;
-
-            document.getElementById('loadNoticeSubtitle').innerText = (cookiesAccepted === false)
-                ? "⚠️ Modo sem Cookies: Carregamento estendido para 20 segundos"
-                : "✓ Modo com Cookies Ativos: Carregamento rápido de 10 segundos";
-
-            document.getElementById('loadFooter').innerText = `Zumbi Hub • Etapa 5 de 6 (${duration} segundos totais)`;
-
-            nextStep('Load');
-
-            const countEl = document.getElementById('loadCountdownNumber');
-            const progBar = document.getElementById('progressBar');
-            let progress = 0;
-            const increment = 100 / duration;
-
-            countEl.innerHTML = `${seconds} <span style="font-size: 18px; color: #d1d5db; font-family: sans-serif;">segundos</span>`;
+            let restante = duracao;
+            document.getElementById('loadTimer').innerText = restante;
+            document.getElementById('progressBar').style.width = '0%';
 
             const interval = setInterval(() => {
-                seconds--;
-                progress += increment;
-                progBar.style.width = Math.min(100, progress) + '%';
-                
-                if (seconds > 0) {
-                    countEl.innerHTML = `${seconds} <span style="font-size: 18px; color: #d1d5db; font-family: sans-serif;">segundos</span>`;
-                } else {
+                restante--;
+                document.getElementById('loadTimer').innerText = restante;
+                const pct = ((duracao - restante) / duracao) * 100;
+                document.getElementById('progressBar').style.width = pct + '%';
+
+                if (restante <= 0) {
                     clearInterval(interval);
-                    nextStep('Final');
+                    playSfx(900, 'sine', 0.3);
+                    irParaEtapa('stepFinal');
                 }
             }, 1000);
         }
 
+        // Etapa 6: Chave Final
         function copiarChave() {
-            playClickSound();
-            const chave = document.getElementById('keyDisplay').innerText;
-            const btn = document.getElementById('btnCopiar');
-
-            navigator.clipboard.writeText(chave).then(() => {
-                btn.innerHTML = '✓ Chave Copiada com Sucesso!';
+            playSfx(750);
+            navigator.clipboard.writeText(KEY_VAL).then(() => {
+                document.getElementById('copyBtnText').innerText = '✓ Chave Copiada!';
                 setTimeout(() => {
-                    btn.innerHTML = '📋 Copiar Chave de Acesso';
+                    document.getElementById('copyBtnText').innerText = '📋 Copiar Chave de Acesso';
                 }, 3000);
-            }).catch(() => {
-                prompt("Copie sua chave manualmente:", chave);
             });
         }
 
         function baixarKeyTxt() {
-            playClickSound();
-            const chave = document.getElementById('keyDisplay').innerText;
-            const dataHora = new Date().toLocaleString('pt-BR');
-            const modo = cookiesAccepted ? "Sessão Rápida" : "Sessão Padrão";
-            const conteudo = `${chave}\nChave oficial gerada pelo Zumbi Hub - Sistema Verificado\nModo: ${modo}\nData de Emissão: ${dataHora}\nValidade: 24 Horas VIP`;
-            const blob = new Blob([conteudo], { type: "text/plain;charset=utf-8" });
+            playSfx(650);
+            const content = `${KEY_VAL}\nZumbi Hub Oficial - Sistema Verificado\nValidade: 24 Horas VIP`;
+            const blob = new Blob([content], { type: 'text/plain;charset=utf-8' });
             const url = URL.createObjectURL(blob);
             const a = document.createElement('a');
             a.href = url;
-            a.download = "ZumbiHub_Key.txt";
+            a.download = 'ZumbiHub_Key.txt';
             document.body.appendChild(a);
             a.click();
             document.body.removeChild(a);
-            URL.revokeObjectURL(url);
         }
 
-        function lerTextoVoz() {
-            playClickSound();
-            if (!('speechSynthesis' in window)) {
-                alert("Seu navegador não suporta leitura de voz.");
-                return;
-            }
-
-            const btn = document.getElementById('btnVoice');
-
-            if (isSpeaking) {
-                window.speechSynthesis.cancel();
-                isSpeaking = false;
-                btn.innerHTML = '🔊 Ouvir Texto em Voz Alta';
-                return;
-            }
-
-            window.speechSynthesis.cancel();
-            const texto = "Bem-vindo ao Zumbi Hub. O Zumbi Hub passou por uma grande evolução estrutural e de performance nesta última atualização. Criamos novas ferramentas avançadas de automação, painel de controle otimizado e sistema de cliques milissegundo. Leia as instruções com calma para obter a sua chave.";
-            const utterance = new SpeechSynthesisUtterance(texto);
-            utterance.lang = 'pt-BR';
-            utterance.rate = 1.05;
-
-            utterance.onend = function() {
-                isSpeaking = false;
-                btn.innerHTML = '🔊 Ouvir Texto em Voz Alta';
-            };
-
-            utterance.onerror = function() {
-                isSpeaking = false;
-                btn.innerHTML = '🔊 Ouvir Texto em Voz Alta';
-            };
-
-            window.speechSynthesis.speak(utterance);
-            isSpeaking = true;
-            btn.innerHTML = '⏹️ Parar Leitura de Voz';
-        }
-
-        function nextStep(stepName) {
-            playClickSound();
-            document.querySelectorAll('.card').forEach(el => el.classList.remove('active'));
-            
-            if (stepName === 3) {
-                document.getElementById('stepBan').classList.add('active');
-            } else if (stepName === 'Update') {
-                document.getElementById('stepUpdate').classList.add('active');
-            } else if (stepName === 'AntiBot') {
-                document.getElementById('stepAntiBotChallenge').classList.add('active');
-                renderizarCaptchaGrid();
-            } else if (stepName === 'Load') {
-                document.getElementById('stepLoad').classList.add('active');
-            } else if (stepName === 'Final') {
-                document.getElementById('stepFinal').classList.add('active');
-                playSuccessSound();
-            } else {
-                const el = document.getElementById('step' + stepName);
-                if (el) el.classList.add('active');
-            }
-        }
-
-        function reiniciarFluxo() {
-            playClickSound();
-            if ('speechSynthesis' in window) {
-                window.speechSynthesis.cancel();
-            }
-            isSpeaking = false;
-            document.getElementById('btnVoice').innerHTML = '🔊 Ouvir Texto em Voz Alta';
-            
-            jaRolouAteOFim = false;
-            tempoInicioLeitura = Date.now();
+        function reiniciar() {
+            playSfx(500);
+            jaRolou = false;
+            tempoInicio = Date.now();
+            captchaPassed = false;
+            telemetryPassed = false;
             document.getElementById('robotCheck').checked = false;
-            document.getElementById('agreeBanRisk').checked = false;
-            document.getElementById('agreeNoBlameCreator').checked = false;
             document.getElementById('btnContinuar').disabled = true;
-
-            selectedTiles = [];
-            visualCaptchaPassed = false;
-            telemetryComplete = false;
-            isScanningTelemetry = false;
-            
-            const hint = document.getElementById('scrollHint');
-            if (hint) {
-                hint.style.color = '#b060ff';
-                hint.innerText = '⬇️ Role a caixa de texto até o fim para desbloquear a confirmação';
-            }
-
-            const scrollBox = document.getElementById('scrollBox1');
-            if (scrollBox) scrollBox.scrollTop = 0;
-
-            document.querySelectorAll('.card').forEach(el => el.classList.remove('active'));
-            document.getElementById('step1').classList.add('active');
+            document.getElementById('agreeBanRisk').checked = false;
+            document.getElementById('agreeNoBlame').checked = false;
+            document.querySelectorAll('.captcha-tile').forEach(t => t.classList.remove('selected'));
+            document.getElementById('btnValidarVisual').style.display = 'block';
+            document.getElementById('visualSuccessMsg').style.display = 'none';
+            document.getElementById('humanRobotCheck').checked = false;
+            document.getElementById('humanCheckContainer').style.opacity = '0.5';
+            document.getElementById('scanLogs').style.display = 'none';
+            document.getElementById('scanLogs').innerHTML = '';
+            document.getElementById('btnIrParaLoad').disabled = true;
+            irParaEtapa('step1');
         }
     </script>
 </body>
