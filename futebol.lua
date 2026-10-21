@@ -1,5 +1,5 @@
 -- =====================================================================
--- ZOMBIE HUB | REAL FUTBOL 24 (PURPLE NEON FIXED) 💜⚽
+-- ZOMBIE HUB | REAL FUTBOL 24 (REMOTE EVENTS PRO) 💜⚽
 -- =====================================================================
 
 local Players = game:GetService("Players")
@@ -7,7 +7,7 @@ local Workspace = game:GetService("Workspace")
 local RunService = game:GetService("RunService")
 local TweenService = game:GetService("TweenService")
 local UserInputService = game:GetService("UserInputService")
-local VirtualInputManager = game:GetService("VirtualInputManager")
+local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local LocalPlayer = Players.LocalPlayer
 local PlayerGui = LocalPlayer:WaitForChild("PlayerGui")
 
@@ -84,6 +84,46 @@ local hasKey = getRemainingTime() > 0
 ScreenGui.Enabled = hasKey
 
 -- =====================================================================
+-- DETECÇÃO E DISPARO AUTOMÁTICO DE EVENTOS REMOTOS
+-- =====================================================================
+local function fireGameRemote(actionKeyword, ...)
+	local args = {...}
+	pcall(function()
+		for _, obj in ipairs(ReplicatedStorage:GetDescendants()) do
+			if obj:IsA("RemoteEvent") then
+				local name = obj.Name:lower()
+				if name:find(actionKeyword:lower()) then
+					obj:FireServer(unpack(args))
+				end
+			end
+		end
+	end)
+end
+
+local function getClosestBall()
+	local closestBall = nil
+	local shortestDist = math.huge
+	local char = LocalPlayer.Character
+	local root = char and char:FindFirstChild("HumanoidRootPart")
+	if not root then return nil end
+
+	for _, obj in ipairs(Workspace:GetDescendants()) do
+		local lname = obj.Name:lower()
+		if lname:find("ball") or lname:find("football") or lname:find("bola") then
+			local ballPart = obj:IsA("BasePart") and obj or obj:FindFirstChildWhichIsA("BasePart")
+			if ballPart then
+				local dist = (ballPart.Position - root.Position).Magnitude
+				if dist < shortestDist then
+					shortestDist = dist
+					closestBall = ballPart
+				end
+			end
+		end
+	end
+	return closestBall
+end
+
+-- =====================================================================
 -- TELA DE VERIFICAÇÃO DE KEY
 -- =====================================================================
 if not hasKey then
@@ -132,11 +172,6 @@ if not hasKey then
 	local bCorner = Instance.new("UICorner")
 	bCorner.CornerRadius = UDim.new(0, 8)
 	bCorner.Parent = kBox
-
-	local bStroke = Instance.new("UIStroke")
-	bStroke.Color = Color3.fromRGB(120, 50, 200)
-	bStroke.Thickness = 1
-	bStroke.Parent = kBox
 
 	local verifyBtn = Instance.new("TextButton")
 	verifyBtn.Size = UDim2.new(1, -40, 0, 38)
@@ -223,7 +258,7 @@ tStroke.Thickness = 2
 tStroke.Parent = ToggleBtn
 
 -- =====================================================================
--- JANELA PRINCIPAL DO HUB (ROXO PREMIUM)
+-- JANELA PRINCIPAL DO HUB
 -- =====================================================================
 local MainFrame = Instance.new("Frame")
 MainFrame.Name = "MainFrame"
@@ -249,15 +284,11 @@ TopBar.BackgroundColor3 = Color3.fromRGB(24, 12, 38)
 TopBar.BorderSizePixel = 0
 TopBar.Parent = MainFrame
 
-local tbCorner = Instance.new("UICorner")
-tbCorner.CornerRadius = UDim.new(0, 14)
-tbCorner.Parent = TopBar
-
 local TitleLabel = Instance.new("TextLabel")
 TitleLabel.Size = UDim2.new(0, 280, 1, 0)
 TitleLabel.Position = UDim2.new(0, 15, 0, 0)
 TitleLabel.BackgroundTransparency = 1
-TitleLabel.Text = "⚽ ZOMBIE HUB — RF24 PRO MAX"
+TitleLabel.Text = "⚽ ZOMBIE HUB — REMOTE EVENTS"
 TitleLabel.TextColor3 = Color3.fromRGB(210, 150, 255)
 TitleLabel.TextSize = 13
 TitleLabel.Font = Enum.Font.GothamBold
@@ -283,11 +314,7 @@ CloseBtn.Text = "✕"
 CloseBtn.TextColor3 = Color3.fromRGB(255, 255, 255)
 CloseBtn.TextSize = 14
 CloseBtn.Font = Enum.Font.GothamBold
-CloseBtn.Parent = TopBar -- CORRIGIDO AQUI!
-
-local cCorner = Instance.new("UICorner")
-cCorner.CornerRadius = UDim.new(0, 8)
-cCorner.Parent = CloseBtn
+CloseBtn.Parent = TopBar
 
 local Sidebar = Instance.new("ScrollingFrame")
 Sidebar.Size = UDim2.new(0, 145, 1, -48)
@@ -372,6 +399,27 @@ local function addSection(tab, text)
 	lbl.Parent = tab
 end
 
+local function addButton(tab, text, callback)
+	local btn = Instance.new("TextButton")
+	btn.Size = UDim2.new(1, -10, 0, 36)
+	btn.BackgroundColor3 = Color3.fromRGB(40, 20, 70)
+	btn.Text = "  " .. text
+	btn.TextColor3 = Color3.fromRGB(230, 200, 255)
+	btn.TextSize = 12
+	btn.Font = Enum.Font.GothamBold
+	btn.TextXAlignment = Enum.TextXAlignment.Left
+	btn.Parent = tab
+
+	local corner = Instance.new("UICorner")
+	corner.CornerRadius = UDim.new(0, 8)
+	corner.Parent = btn
+
+	btn.Activated:Connect(function()
+		clickSound:Play()
+		callback()
+	end)
+end
+
 local function addToggle(tab, text, callback)
 	local tgl = Instance.new("TextButton")
 	tgl.Size = UDim2.new(1, -10, 0, 34)
@@ -448,105 +496,56 @@ local function addSelector(tab, options, callback)
 end
 
 -- =====================================================================
--- VARIÁVEIS DE CONTROLE
+-- ABAS DO HUB
 -- =====================================================================
 _G.CurveMode = "Direita"
-_G.BallSpeed = 50
-_G.IsKicking = false
-_G.MagnetFoot = false
 
-UserInputService.InputBegan:Connect(function(input, gpe)
-	if gpe then return end
-	if input.UserInputType == Enum.UserInputType.MouseButton1 or 
-	   input.KeyCode == Enum.KeyCode.Space or 
-	   input.KeyCode == Enum.KeyCode.E or 
-	   input.KeyCode == Enum.KeyCode.Q or 
-	   input.KeyCode == Enum.KeyCode.R then
-		_G.IsKicking = true
-		task.delay(0.6, function() _G.IsKicking = false end)
-	end
-end)
-
-local function getBallPart()
-	for _, obj in ipairs(Workspace:GetDescendants()) do
-		local lname = obj.Name:lower()
-		if lname:find("ball") or lname:find("football") or lname:find("bola") then
-			return obj:IsA("BasePart") and obj or obj:FindFirstChildWhichIsA("BasePart")
-		end
-	end
-	return nil
-end
-
--- =====================================================================
--- ABAS
--- =====================================================================
 local TabChutes = createTab("Chutes", "🎯")
-addSection(TabChutes, "Grudar Bola & Velocidade")
+addSection(TabChutes, "Ações Rápidas (Clique Único)")
 
-addToggle(TabChutes, "🧲 Grudar Bola no Pé (Solta ao Chutar)", function(val)
-	_G.MagnetFoot = val
-	task.spawn(function()
-		while _G.MagnetFoot do
-			pcall(function()
-				if not _G.IsKicking then
-					local char = LocalPlayer.Character
-					local root = char and char:FindFirstChild("HumanoidRootPart")
-					local ball = getBallPart()
-					if root and ball then
-						local footPos = root.CFrame * Vector3.new(0, -2, -1.5)
-						ball.CFrame = CFrame.new(footPos)
-						ball.AssemblyLinearVelocity = root.AssemblyLinearVelocity
-					end
-				end
-			end)
-			task.wait(0.02)
-		end
-	end)
+-- Botões Rápidos
+addButton(TabChutes, "🧲 Puxar Bola Mais Próxima para o Pé", function()
+	local ball = getClosestBall()
+	local char = LocalPlayer.Character
+	local root = char and char:FindFirstChild("HumanoidRootPart")
+	if ball and root then
+		ball.CFrame = root.CFrame + (root.CFrame.LookVector * 2) - Vector3.new(0, 2, 0)
+		ball.AssemblyLinearVelocity = Vector3.new(0, 0, 0)
+		fireGameRemote("dribble")
+	end
 end)
 
-addToggle(TabChutes, "📌 Auto Pegar Bola (Teleport na Cabeça)", function(val)
-	_G.AutoCatchHead = val
-	task.spawn(function()
-		while _G.AutoCatchHead do
-			pcall(function()
-				local char = LocalPlayer.Character
-				local head = char and char:FindFirstChild("Head")
-				local ball = getBallPart()
-				if head and ball then
-					ball.CFrame = head.CFrame + Vector3.new(0, 3.5, 0)
-					ball.AssemblyLinearVelocity = Vector3.new(0, 0, 0)
-				end
-			end)
-			task.wait(0.05)
-		end
-	end)
+addButton(TabChutes, "📌 Puxar Bola Mais Próxima para a Cabeça", function()
+	local ball = getClosestBall()
+	local char = LocalPlayer.Character
+	local head = char and char:FindFirstChild("Head")
+	if ball and head then
+		ball.CFrame = head.CFrame + Vector3.new(0, 3.5, 0)
+		ball.AssemblyLinearVelocity = Vector3.new(0, 0, 0)
+	end
 end)
 
 addSection(TabChutes, "Direção de Curva do Chute:")
-addSelector(TabChutes, {"Direita", "Esquerda", "Reto", "Voleio"}, function(selected)
+addSelector(TabChutes, {"Direita", "Esquerda", "Reto"}, function(selected)
 	_G.CurveMode = selected
 end)
 
-addToggle(TabChutes, "🌀 Ativar Curva do Chute", function(val)
+addToggle(TabChutes, "🌀 Ativar Curva nos Chutes (Eventos + Física)", function(val)
 	_G.AutoCurve = val
 	task.spawn(function()
-		local step = 0
 		while _G.AutoCurve do
 			pcall(function()
-				local ball = getBallPart()
+				local ball = getClosestBall()
 				if ball and ball.AssemblyLinearVelocity.Magnitude > 8 then
+					fireGameRemote("curve", _G.CurveMode)
 					local currentVel = ball.AssemblyLinearVelocity
 					if _G.CurveMode == "Direita" then
-						ball.AssemblyLinearVelocity = currentVel + (Workspace.CurrentCamera.CFrame.RightVector * 3.5)
+						ball.AssemblyLinearVelocity = currentVel + (Workspace.CurrentCamera.CFrame.RightVector * 4)
 					elseif _G.CurveMode == "Esquerda" then
-						ball.AssemblyLinearVelocity = currentVel - (Workspace.CurrentCamera.CFrame.RightVector * 3.5)
+						ball.AssemblyLinearVelocity = currentVel - (Workspace.CurrentCamera.CFrame.RightVector * 4)
 					elseif _G.CurveMode == "Reto" then
 						local forward = Vector3.new(currentVel.X, 0, currentVel.Z).Unit
 						ball.AssemblyLinearVelocity = (forward * currentVel.Magnitude) + Vector3.new(0, currentVel.Y, 0)
-					elseif _G.CurveMode == "Voleio" then
-						step = step + 1
-						local sideOffset = math.sin(step * 0.8) * 4.5
-						ball.AssemblyLinearVelocity = currentVel + (Workspace.CurrentCamera.CFrame.RightVector * sideOffset)
 					end
 				end
 			end)
@@ -555,32 +554,12 @@ addToggle(TabChutes, "🌀 Ativar Curva do Chute", function(val)
 	end)
 end)
 
-addSection(TabChutes, "Velocidade da Bola (1 a 100):")
-addTextBox(TabChutes, "Ex: 90", function(v)
-	_G.BallSpeed = math.clamp(v, 1, 100)
-end)
-
-addToggle(TabChutes, "⚡ Ativar Trava de Velocidade da Bola", function(val)
-	_G.SpeedLock = val
-	task.spawn(function()
-		while _G.SpeedLock do
-			pcall(function()
-				local ball = getBallPart()
-				if ball and ball.AssemblyLinearVelocity.Magnitude > 5 then
-					local dir = ball.AssemblyLinearVelocity.Unit
-					ball.AssemblyLinearVelocity = dir * (_G.BallSpeed * 1.8)
-				end
-			end)
-			task.wait(0.03)
-		end
-	end)
-end)
-
-addToggle(TabChutes, "⚡ Stamina Infinita", function(val)
+addToggle(TabChutes, "⚡ Stamina Infinita (Profissional)", function(val)
 	_G.InfiniteStamina = val
 	task.spawn(function()
 		while _G.InfiniteStamina do
 			pcall(function()
+				fireGameRemote("stamina", 100)
 				for _, obj in ipairs(LocalPlayer:GetDescendants()) do
 					local name = obj.Name:lower()
 					if name:find("stamina") or name:find("energy") or name:find("vigor") then
@@ -605,14 +584,13 @@ addToggle(TabGoleiro, "🧤 Auto Rebatida de Chutes", function(val)
 			pcall(function()
 				local char = LocalPlayer.Character
 				local root = char and char:FindFirstChild("HumanoidRootPart")
-				local ball = getBallPart()
+				local ball = getClosestBall()
 				if root and ball then
 					local dist = (ball.Position - root.Position).Magnitude
 					if dist < 25 then
-						VirtualInputManager:SendKeyEvent(true, Enum.KeyCode.E, false, game)
+						fireGameRemote("save")
+						fireGameRemote("catch")
 						ball.AssemblyLinearVelocity = (ball.Position - root.Position).Unit * 140 + Vector3.new(0, 45, 0)
-						task.wait(0.05)
-						VirtualInputManager:SendKeyEvent(false, Enum.KeyCode.E, false, game)
 						task.wait(0.2)
 					end
 				end
@@ -630,7 +608,7 @@ addToggle(TabESP, "⚽ ESP Bola de Futebol", function(val)
 	task.spawn(function()
 		while _G.EspBall do
 			pcall(function()
-				local ball = getBallPart()
+				local ball = getClosestBall()
 				if ball and not ball:FindFirstChild("BallESP") then
 					local bb = Instance.new("BillboardGui")
 					bb.Name = "BallESP"
@@ -651,7 +629,7 @@ addToggle(TabESP, "⚽ ESP Bola de Futebol", function(val)
 			end)
 			task.wait(1.5)
 		end
-		local ball = getBallPart()
+		local ball = getClosestBall()
 		if ball and ball:FindFirstChild("BallESP") then ball.BallESP:Destroy() end
 	end)
 end)
@@ -729,4 +707,4 @@ UserInputService.InputChanged:Connect(function(input)
 	end
 end)
 
-print("Zombie Hub Purple Pro Max - Corrigido e Rodando! ⚽💜")
+print("Zombie Hub Remote Events Edition Loaded! ⚽💜")
