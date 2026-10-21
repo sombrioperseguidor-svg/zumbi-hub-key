@@ -1,5 +1,5 @@
 -- =====================================================================
--- ZOMBIE HUB | REAL FUTBOL 24 (PURPLE NEON PRO MAX) 💜⚽
+-- ZOMBIE HUB | REAL FUTBOL 24 (PURPLE NEON FIXED) 💜⚽
 -- =====================================================================
 
 local Players = game:GetService("Players")
@@ -84,7 +84,7 @@ local hasKey = getRemainingTime() > 0
 ScreenGui.Enabled = hasKey
 
 -- =====================================================================
--- TELA DE VERIFICAÇÃO DE KEY (ROXO NEON)
+-- TELA DE VERIFICAÇÃO DE KEY
 -- =====================================================================
 if not hasKey then
 	local KeyGui = Instance.new("ScreenGui")
@@ -176,14 +176,14 @@ if not hasKey then
 	statusLbl.Font = Enum.Font.Gotham
 	statusLbl.Parent = KeyFrame
 
-	copyBtn.MouseButton1Click:Connect(function()
+	copyBtn.Activated:Connect(function()
 		clickSound:Play()
 		pcall(function() setclipboard("https://sombrioperseguidor-svg.github.io/zumbi-hub-key/") end)
-		statusLbl.Text = "Link do site copiado para a área de transferência!"
+		statusLbl.Text = "Link copiado para a área de transferência!"
 		statusLbl.TextColor3 = Color3.fromRGB(160, 255, 160)
 	end)
 
-	verifyBtn.MouseButton1Click:Connect(function()
+	verifyBtn.Activated:Connect(function()
 		clickSound:Play()
 		local enteredText = kBox.Text:gsub("%s+", "")
 		if enteredText == "" then
@@ -201,7 +201,7 @@ if not hasKey then
 end
 
 -- =====================================================================
--- BOLINHA FLUTUANTE ROXA (Arrastável ⚽)
+-- BOLINHA FLUTUANTE ROXA (Touch / Arrastável ⚽)
 -- =====================================================================
 local ToggleBtn = Instance.new("TextButton")
 ToggleBtn.Name = "ToggleBtn"
@@ -283,7 +283,7 @@ CloseBtn.Text = "✕"
 CloseBtn.TextColor3 = Color3.fromRGB(255, 255, 255)
 CloseBtn.TextSize = 14
 CloseBtn.Font = Enum.Font.GothamBold
-CloseBtn.Parent = CloseBtn
+CloseBtn.Parent = TopBar -- CORRIGIDO AQUI!
 
 local cCorner = Instance.new("UICorner")
 cCorner.CornerRadius = UDim.new(0, 8)
@@ -338,7 +338,7 @@ local function createTab(name, icon)
 	cLayout.Padding = UDim.new(0, 8)
 	cLayout.Parent = contentFrame
 
-	tabBtn.MouseButton1Click:Connect(function()
+	tabBtn.Activated:Connect(function()
 		clickSound:Play()
 		for _, t in pairs(tabs) do
 			t.btn.BackgroundColor3 = Color3.fromRGB(22, 12, 36)
@@ -388,7 +388,7 @@ local function addToggle(tab, text, callback)
 	corner.Parent = tgl
 
 	local active = false
-	tgl.MouseButton1Click:Connect(function()
+	tgl.Activated:Connect(function()
 		clickSound:Play()
 		active = not active
 		tgl.Text = "  " .. text .. (active and " [ ON ]" or " [ OFF ]")
@@ -439,7 +439,7 @@ local function addSelector(tab, options, callback)
 	corner.CornerRadius = UDim.new(0, 8)
 	corner.Parent = selBtn
 
-	selBtn.MouseButton1Click:Connect(function()
+	selBtn.Activated:Connect(function()
 		clickSound:Play()
 		currentIdx = (currentIdx % #options) + 1
 		selBtn.Text = "  Modo de Curva: " .. options[currentIdx]
@@ -448,14 +448,13 @@ local function addSelector(tab, options, callback)
 end
 
 -- =====================================================================
--- VARIÁVEIS DE CONTROLE DO SCRIPT
+-- VARIÁVEIS DE CONTROLE
 -- =====================================================================
-_G.CurveMode = "Direita" -- Direita, Esquerda, Reto, Voleio
-_G.BallSpeed = 50       -- Velocidade limite (até 100)
-_G.IsKicking = false    -- Detecta se está chutando para soltar a bola
-_G.MagnetFoot = false   -- Grudar bola no pé
+_G.CurveMode = "Direita"
+_G.BallSpeed = 50
+_G.IsKicking = false
+_G.MagnetFoot = false
 
--- Monitorar eventos de chute do jogador para desativar grudar bola na hora
 UserInputService.InputBegan:Connect(function(input, gpe)
 	if gpe then return end
 	if input.UserInputType == Enum.UserInputType.MouseButton1 or 
@@ -468,7 +467,6 @@ UserInputService.InputBegan:Connect(function(input, gpe)
 	end
 end)
 
--- Função auxiliar para achar a bola no Workspace
 local function getBallPart()
 	for _, obj in ipairs(Workspace:GetDescendants()) do
 		local lname = obj.Name:lower()
@@ -480,14 +478,11 @@ local function getBallPart()
 end
 
 -- =====================================================================
--- ABAS DO HUB
+-- ABAS
 -- =====================================================================
-
--- 1. ABA CHUTES & FÍSICA
 local TabChutes = createTab("Chutes", "🎯")
 addSection(TabChutes, "Grudar Bola & Velocidade")
 
--- Grudar bola no pé
 addToggle(TabChutes, "🧲 Grudar Bola no Pé (Solta ao Chutar)", function(val)
 	_G.MagnetFoot = val
 	task.spawn(function()
@@ -509,7 +504,6 @@ addToggle(TabChutes, "🧲 Grudar Bola no Pé (Solta ao Chutar)", function(val)
 	end)
 end)
 
--- Auto Pegar Bola (Teleport na cabeça)
 addToggle(TabChutes, "📌 Auto Pegar Bola (Teleport na Cabeça)", function(val)
 	_G.AutoCatchHead = val
 	task.spawn(function()
@@ -582,7 +576,7 @@ addToggle(TabChutes, "⚡ Ativar Trava de Velocidade da Bola", function(val)
 	end)
 end)
 
-addToggle(TabChutes, "⚡ Stamina Infinita (Profissional)", function(val)
+addToggle(TabChutes, "⚡ Stamina Infinita", function(val)
 	_G.InfiniteStamina = val
 	task.spawn(function()
 		while _G.InfiniteStamina do
@@ -601,11 +595,10 @@ addToggle(TabChutes, "⚡ Stamina Infinita (Profissional)", function(val)
 	end)
 end)
 
--- 2. ABA GOLEIRO
 local TabGoleiro = createTab("Goleiro", "🧤")
 addSection(TabGoleiro, "Defesa Inviolável")
 
-addToggle(TabGoleiro, "🧤 Auto Rebatida de Chutes (Defesa Total)", function(val)
+addToggle(TabGoleiro, "🧤 Auto Rebatida de Chutes", function(val)
 	_G.AutoKeeper = val
 	task.spawn(function()
 		while _G.AutoKeeper do
@@ -629,7 +622,6 @@ addToggle(TabGoleiro, "🧤 Auto Rebatida de Chutes (Defesa Total)", function(va
 	end)
 end)
 
--- 3. ABA ESP
 local TabESP = createTab("ESP", "👀")
 addSection(TabESP, "Rastreamento do Campo")
 
@@ -664,7 +656,6 @@ addToggle(TabESP, "⚽ ESP Bola de Futebol", function(val)
 	end)
 end)
 
--- 4. ABA JOGADORES
 local TabPlayers = createTab("Jogadores", "🏃‍♂️")
 addSection(TabPlayers, "Atributos Físicos")
 
@@ -682,7 +673,6 @@ addTextBox(TabPlayers, "Ex: 85 (Padrão 50)", function(v)
 	if hum then hum.JumpPower = v end
 end)
 
--- Timer no Topo
 task.spawn(function()
 	while true do
 		local left = getRemainingTime()
@@ -716,8 +706,8 @@ local function toggleUI()
 	end
 end
 
-ToggleBtn.MouseButton1Click:Connect(toggleUI)
-CloseBtn.MouseButton1Click:Connect(toggleUI)
+ToggleBtn.Activated:Connect(toggleUI)
+CloseBtn.Activated:Connect(toggleUI)
 
 -- Arrastar bolinha flutuante
 local dragging, dragStart, startPos
@@ -739,4 +729,4 @@ UserInputService.InputChanged:Connect(function(input)
 	end
 end)
 
-print("Zombie Hub Purple Pro Max - Atualizado! ⚽💜")
+print("Zombie Hub Purple Pro Max - Corrigido e Rodando! ⚽💜")
